@@ -5,6 +5,11 @@
     "target": "ES2019",
     "esModuleInterop": true,
     "moduleResolution": "Node",
-    "allowJs": true
+    "allowJs": true,
+    "baseUrl": "src",
+    "paths": {
+      "@/tests/*": ["../tests/*"],
+      "@/*": ["*"]
+    }
   }
 }

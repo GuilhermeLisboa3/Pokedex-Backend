@@ -8,5 +8,9 @@ module.exports = {
   testEnvironment: 'node',
   transform: {
     '.+\\.ts$': 'ts-jest'
+  },
+  moduleNmaeMapper: {
+    '@/tests/(.*)': '<rootDir>/tests/$1',
+    '@/(.*)': '<rootDir>/src/$1'
   }
 }
