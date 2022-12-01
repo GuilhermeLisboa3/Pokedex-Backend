@@ -1,4 +1,4 @@
-import { badRequest, forbidden } from '../helpers'
+import { badRequest, forbidden, ok } from '../helpers'
 import { Validation, HttpResponse, Controller } from '../protocols'
 import { EmailInUseError } from '../errors'
 import { AddAccount } from '@/domain/usecases'
@@ -18,9 +18,6 @@ export class SingUpController implements Controller {
     if (!isValid) {
       return forbidden(new EmailInUseError())
     }
-    return {
-      statusCode: 200,
-      body: isValid
-    }
+    return ok(isValid)
   }
 }
