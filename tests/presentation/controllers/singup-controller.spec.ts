@@ -1,6 +1,6 @@
 import { SingUpController } from '@/presentation/controllers'
 import { badRequest } from '@/presentation/helpers'
-import { Validation } from '@/presentation/protocols'
+import { ValidationSpy } from '../mocks'
 import { accountParams } from '@/tests/mocks'
 
 const { name, email, password } = accountParams
@@ -8,15 +8,6 @@ const makeRequest = {
   name,
   email,
   password
-}
-
-export class ValidationSpy implements Validation {
-  error: Error = null
-  input: any
-  validate (input: any): Error {
-    this.input = input
-    return this.error
-  }
 }
 
 type SutTypes = {
