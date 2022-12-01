@@ -33,4 +33,14 @@ describe('SingUp Controller', () => {
     sut.handle({ name, email, password })
     expect(validation.input).toEqual({ name, email, password })
   })
+
+  it('should return 400 if Validation returns in error', () => {
+    const { sut, validation } = makeSut()
+    validation.error = new Error()
+    const httpResponse = sut.handle({ name, email, password })
+    expect(httpResponse).toEqual({
+      statusCode: 400,
+      body: validation.error
+    })
+  })
 })
