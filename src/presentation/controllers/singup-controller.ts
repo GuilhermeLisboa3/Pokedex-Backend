@@ -1,6 +1,6 @@
-import { Validation, HttpResponse } from '../protocols'
+import { Validation, HttpResponse, Controller } from '../protocols'
 
-export class SingUpController {
+export class SingUpController implements Controller {
   constructor (
     private readonly validation: Validation
   ) {}
