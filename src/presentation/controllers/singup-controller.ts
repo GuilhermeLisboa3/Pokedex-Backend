@@ -13,6 +13,12 @@ export class SingUpController implements Controller {
     if (error) {
       return badRequest(error)
     }
-    await this.addAccount.add(httpRequest)
+    const isValid = await this.addAccount.add(httpRequest)
+    if (!isValid) {
+      return {
+        statusCode: 403,
+        body: new Error('The received email is already in use')
+      }
+    }
   }
 }
