@@ -10,14 +10,21 @@ export class SingUpController implements Controller {
   ) {}
 
   async handle (httpRequest: any): Promise<HttpResponse> {
-    const error = this.validation.validate(httpRequest)
-    if (error) {
-      return badRequest(error)
+    try {
+      const error = this.validation.validate(httpRequest)
+      if (error) {
+        return badRequest(error)
+      }
+      const isValid = await this.addAccount.add(httpRequest)
+      if (!isValid) {
+        return forbidden(new EmailInUseError())
+      }
+      return ok(isValid)
+    } catch (error) {
+      return {
+        statusCode: 500,
+        body: error
+      }
     }
-    const isValid = await this.addAccount.add(httpRequest)
-    if (!isValid) {
-      return forbidden(new EmailInUseError())
-    }
-    return ok(isValid)
   }
 }
