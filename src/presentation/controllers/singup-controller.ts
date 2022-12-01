@@ -1,11 +1,11 @@
-import { Validation } from '../protocols'
+import { Validation, HttpResponse } from '../protocols'
 
 export class SingUpController {
   constructor (
     private readonly validation: Validation
   ) {}
 
-  handle (httpRequest: any): any {
+  handle (httpRequest: any): HttpResponse {
     const error = this.validation.validate(httpRequest)
     if (error) {
       return {
