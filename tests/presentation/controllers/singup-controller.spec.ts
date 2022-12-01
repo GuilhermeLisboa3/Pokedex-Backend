@@ -1,7 +1,8 @@
 import { SingUpController } from '@/presentation/controllers'
-import { badRequest } from '@/presentation/helpers'
+import { badRequest, forbidden } from '@/presentation/helpers'
 import { ValidationSpy, AddAccountSpy } from '../mocks'
 import { accountParams } from '@/tests/mocks'
+import { EmailInUseError } from '@/presentation/errors'
 
 const { name, email, password } = accountParams
 const makeRequest = {
@@ -51,9 +52,6 @@ describe('SingUp Controller', () => {
     const { sut, addAccountSpy } = makeSut()
     addAccountSpy.result = false
     const httpResponse = await sut.handle(makeRequest)
-    expect(httpResponse).toEqual({
-      statusCode: 403,
-      body: new Error('The received email is already in use')
-    })
+    expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
   })
 })

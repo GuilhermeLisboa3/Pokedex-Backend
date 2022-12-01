@@ -1,5 +1,6 @@
-import { badRequest } from '../helpers'
+import { badRequest, forbidden } from '../helpers'
 import { Validation, HttpResponse, Controller } from '../protocols'
+import { EmailInUseError } from '../errors'
 import { AddAccount } from '@/domain/usecases'
 
 export class SingUpController implements Controller {
@@ -15,10 +16,7 @@ export class SingUpController implements Controller {
     }
     const isValid = await this.addAccount.add(httpRequest)
     if (!isValid) {
-      return {
-        statusCode: 403,
-        body: new Error('The received email is already in use')
-      }
+      return forbidden(new EmailInUseError())
     }
   }
 }
