@@ -6,6 +6,12 @@ export class SingUpController {
   ) {}
 
   handle (httpRequest: any): any {
-    this.validation.validate(httpRequest)
+    const error = this.validation.validate(httpRequest)
+    if (error) {
+      return {
+        statusCode: 400,
+        body: new Error()
+      }
+    }
   }
 }
