@@ -46,4 +46,14 @@ describe('SingUp Controller', () => {
     await sut.handle(makeRequest)
     expect(addAccountSpy.addAccountParams).toEqual(makeRequest)
   })
+
+  it('should return 403 if AddAccount returns null ', async () => {
+    const { sut, addAccountSpy } = makeSut()
+    addAccountSpy.result = false
+    const httpResponse = await sut.handle(makeRequest)
+    expect(httpResponse).toEqual({
+      statusCode: 403,
+      body: new Error('The received email is already in use')
+    })
+  })
 })
