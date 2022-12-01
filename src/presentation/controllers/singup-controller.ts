@@ -9,13 +9,18 @@ export class SingUpController implements Controller {
     private readonly addAccount: AddAccount
   ) {}
 
-  async handle (httpRequest: any): Promise<HttpResponse> {
+  async handle (request: SingUpController.Request): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest)
+      const error = this.validation.validate(request)
       if (error) {
         return badRequest(error)
       }
-      const isValid = await this.addAccount.add(httpRequest)
+      const { name, email, password } = request
+      const isValid = await this.addAccount.add({
+        name,
+        email,
+        password
+      })
       if (!isValid) {
         return forbidden(new EmailInUseError())
       }
@@ -23,5 +28,13 @@ export class SingUpController implements Controller {
     } catch (error) {
       return serverError(error)
     }
+  }
+}
+
+export namespace SingUpController {
+  export type Request = {
+    name: string
+    email: string
+    password: string
   }
 }
