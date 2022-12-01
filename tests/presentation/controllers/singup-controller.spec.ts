@@ -1,5 +1,5 @@
 import { SingUpController } from '@/presentation/controllers'
-import { badRequest, forbidden, ok } from '@/presentation/helpers'
+import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers'
 import { ValidationSpy, AddAccountSpy } from '../mocks'
 import { accountParams } from '@/tests/mocks'
 import { EmailInUseError } from '@/presentation/errors'
@@ -59,10 +59,7 @@ describe('SingUp Controller', () => {
     const { sut, addAccountSpy } = makeSut()
     jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(() => { throw new Error() })
     const httpResponse = await sut.handle(makeRequest)
-    expect(httpResponse).toEqual({
-      statusCode: 500,
-      body: new Error()
-    })
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 
   it('should return 200 on success ', async () => {
