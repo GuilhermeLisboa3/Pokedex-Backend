@@ -1,3 +1,4 @@
+import { badRequest } from '../helpers'
 import { Validation, HttpResponse, Controller } from '../protocols'
 
 export class SingUpController implements Controller {
@@ -8,10 +9,7 @@ export class SingUpController implements Controller {
   handle (httpRequest: any): HttpResponse {
     const error = this.validation.validate(httpRequest)
     if (error) {
-      return {
-        statusCode: 400,
-        body: new Error()
-      }
+      return badRequest(error)
     }
   }
 }
