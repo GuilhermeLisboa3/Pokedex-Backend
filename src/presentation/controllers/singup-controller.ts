@@ -18,5 +18,9 @@ export class SingUpController implements Controller {
     if (!isValid) {
       return forbidden(new EmailInUseError())
     }
+    return {
+      statusCode: 200,
+      body: isValid
+    }
   }
 }
