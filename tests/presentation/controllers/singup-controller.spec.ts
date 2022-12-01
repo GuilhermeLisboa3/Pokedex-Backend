@@ -54,4 +54,13 @@ describe('SingUp Controller', () => {
     const httpResponse = await sut.handle(makeRequest)
     expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
   })
+
+  it('should return 200 on success ', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeRequest)
+    expect(httpResponse).toEqual({
+      statusCode: 200,
+      body: true
+    })
+  })
 })
