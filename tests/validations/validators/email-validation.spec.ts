@@ -1,5 +1,6 @@
 import { EmailValidationSpy } from '../mocks/mock-email-validation'
 import { EmailValidation } from '@/validations/validators'
+import { InvalidParamError } from '@/presentation/errors'
 import { faker } from '@faker-js/faker'
 
 const field = faker.random.word()
@@ -24,5 +25,13 @@ describe('Email Validation', () => {
     const email = faker.internet.email()
     sut.validate({ [field]: email })
     expect(emailValidationSpy.email).toEqual(email)
+  })
+
+  it('should return an error if EmailValidator returns false', () => {
+    const { sut, emailValidationSpy } = makeSut()
+    const email = faker.internet.email()
+    emailValidationSpy.isEmailValid = false
+    const error = sut.validate({ [field]: email })
+    expect(error).toEqual(new InvalidParamError(field))
   })
 })
