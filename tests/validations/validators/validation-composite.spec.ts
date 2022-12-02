@@ -36,4 +36,10 @@ describe('Validation Composite', () => {
     const error = sut.validate({ field })
     expect(error).toEqual(validationSpies[0].error)
   })
+
+  it('should return nothing if there is no error', () => {
+    const { sut } = makeSut()
+    const error = sut.validate({ field })
+    expect(error).toBeFalsy()
+  })
 })
