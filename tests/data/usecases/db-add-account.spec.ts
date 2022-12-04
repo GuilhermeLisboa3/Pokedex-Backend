@@ -1,18 +1,9 @@
 import { accountParams } from '@/tests/mocks'
 import { DbAddAccount } from '@/data/usecase'
-import { CheckAccountByEmailRepository } from '@/data/protocols'
+import { CheckAccountByEmailRepositorySpy } from '../mocks'
 
 const { email, name, password } = accountParams
 const makeAccountParams = { email, name, password }
-
-class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepository {
-  result = false
-  email: string
-  async checkByEmail (email: string): Promise<CheckAccountByEmailRepository.Result> {
-    this.email = email
-    return this.result
-  }
-}
 
 type SutTypes = {
   sut: DbAddAccount
