@@ -25,4 +25,11 @@ describe('DbAddAccount', () => {
     await sut.add(makeAccountParams)
     expect(checkAccountByEmailRepositorySpy.email).toEqual(email)
   })
+
+  it('should return false if CheckAccountByEmailRepository returns true', async () => {
+    const { sut, checkAccountByEmailRepositorySpy } = makeSut()
+    checkAccountByEmailRepositorySpy.result = true
+    const isValid = await sut.add(makeAccountParams)
+    expect(isValid).toBeFalsy()
+  })
 })
