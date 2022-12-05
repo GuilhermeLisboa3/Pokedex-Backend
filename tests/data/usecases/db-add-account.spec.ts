@@ -1,6 +1,6 @@
 import { accountParams } from '@/tests/mocks'
 import { DbAddAccount } from '@/data/usecase'
-import { CheckAccountByEmailRepositorySpy } from '../mocks'
+import { CheckAccountByEmailRepositorySpy, HasherSpy } from '../mocks'
 
 const { email, name, password } = accountParams
 const makeAccountParams = { email, name, password }
@@ -8,14 +8,17 @@ const makeAccountParams = { email, name, password }
 type SutTypes = {
   sut: DbAddAccount
   checkAccountByEmailRepositorySpy: CheckAccountByEmailRepositorySpy
+  hasherSpy: HasherSpy
 }
 
 const makeSut = (): SutTypes => {
   const checkAccountByEmailRepositorySpy = new CheckAccountByEmailRepositorySpy()
-  const sut = new DbAddAccount(checkAccountByEmailRepositorySpy)
+  const hasherSpy = new HasherSpy()
+  const sut = new DbAddAccount(checkAccountByEmailRepositorySpy, hasherSpy)
   return {
     sut,
-    checkAccountByEmailRepositorySpy
+    checkAccountByEmailRepositorySpy,
+    hasherSpy
   }
 }
 
@@ -38,5 +41,11 @@ describe('DbAddAccount', () => {
     jest.spyOn(checkAccountByEmailRepositorySpy, 'checkByEmail').mockImplementationOnce(() => { throw new Error() })
     const promise = sut.add(makeAccountParams)
     await expect(promise).rejects.toThrow()
+  })
+
+  it('should call Hasher with correct password', async () => {
+    const { sut, hasherSpy } = makeSut()
+    await sut.add(makeAccountParams)
+    expect(hasherSpy.password).toEqual(password)
   })
 })
