@@ -82,4 +82,10 @@ describe('DbAddAccount', () => {
     const promise = sut.add(makeAccountParams)
     await expect(promise).rejects.toThrow()
   })
+
+  it('return true if on success', async () => {
+    const { sut } = makeSut()
+    const isValid = await sut.add(makeAccountParams)
+    expect(isValid).toBe(true)
+  })
 })
