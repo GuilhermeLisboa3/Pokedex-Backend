@@ -75,4 +75,11 @@ describe('DbAddAccount', () => {
     const account = await sut.add(makeAccountParams)
     expect(account).toBe(false)
   })
+
+  it('should throw if AddAccountRepository throws', async () => {
+    const { sut, addAccountRepositorySpy } = makeSut()
+    jest.spyOn(addAccountRepositorySpy, 'add').mockImplementationOnce(() => { throw new Error() })
+    const promise = sut.add(makeAccountParams)
+    await expect(promise).rejects.toThrow()
+  })
 })
