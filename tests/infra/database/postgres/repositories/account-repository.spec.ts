@@ -22,5 +22,11 @@ describe('Account Repository', () => {
       const account = await sut.checkByEmail(email)
       expect(account).toBe(true)
     })
+
+    it('should return false if email not exist', async () => {
+      const sut = makeSut()
+      const account = await sut.checkByEmail(email)
+      expect(account).toBe(false)
+    })
   })
 })
