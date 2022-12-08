@@ -29,4 +29,12 @@ describe('Account Repository', () => {
       expect(account).toBe(false)
     })
   })
+
+  describe('add', () => {
+    it('should return an account on success', async () => {
+      const sut = makeSut()
+      const account = await sut.add({ name, email, password })
+      expect(account).toBe(true)
+    })
+  })
 })
