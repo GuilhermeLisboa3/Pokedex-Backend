@@ -1,15 +1,18 @@
+
 {
   "compilerOptions": {
-    "outDir": "./dist",
-    "module": "CommonJS",
-    "target": "ES2019",
-    "esModuleInterop": true,
-    "moduleResolution": "Node",
-    "allowJs": true,
-    "baseUrl": "src",
-    "paths": {
-      "@/tests/*": ["../tests/*"],
-      "@/*": ["*"]
-    }
+  "outDir": "dist",
+  "module": "commonjs",
+  "target": "es2019",
+  "esModuleInterop": true,
+  "sourceMap": true,
+  "rootDirs": ["src", "tests"],
+  "baseUrl": "src",
+  "paths": {
+  "@/tests/*": ["../tests/*"],
+  "@/*": ["*"]
   }
+},
+"include": ["src", "tests"],
+"exclude": []
 }
