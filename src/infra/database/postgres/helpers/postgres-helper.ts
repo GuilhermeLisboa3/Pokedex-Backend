@@ -1,4 +1,7 @@
 import { Sequelize, Options } from 'sequelize'
+import dotenv from 'dotenv'
+dotenv.config()
+
 export const postgresHelpers = {
   client: null as Sequelize,
 

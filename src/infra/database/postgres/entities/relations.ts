@@ -1,4 +1,4 @@
-import { postgresHelpers } from '@/infra/database/postgres/helpers'
+import { postgresHelpers } from '../helpers'
 import account from './account'
 
 const sequelize = postgresHelpers.connect()
