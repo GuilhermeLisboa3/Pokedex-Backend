@@ -1,6 +1,6 @@
 import request from 'supertest'
 import { sequelize } from '@/infra/database/postgres/entities'
-import app from '@/main/config/app'
+import { app } from '@/main/config/app'
 import { accountParams } from '@/tests/mocks'
 
 const { name, email, password } = accountParams

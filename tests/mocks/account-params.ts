@@ -4,5 +4,6 @@ export const accountParams = {
   id: faker.datatype.uuid(),
   name: faker.name.fullName(),
   email: faker.internet.email(),
-  password: faker.internet.password()
+  password: faker.internet.password(),
+  accessToken: faker.datatype.uuid()
 }

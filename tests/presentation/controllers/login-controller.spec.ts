@@ -1,5 +1,5 @@
 import { accountParams } from '@/tests/mocks'
-import { ValidationSpy } from '@/tests/presentation/mocks'
+import { ValidationSpy, AuthenticationSpy } from '@/tests/presentation/mocks'
 import { LoginController } from '@/presentation/controllers'
 import { badRequest } from '@/presentation/helpers'
 
@@ -8,15 +8,18 @@ const { email, password } = accountParams
 type SutTypes = {
   sut: LoginController
   validationSpy: ValidationSpy
+  authenticationSpy: AuthenticationSpy
 }
 
 const makeSut = (): SutTypes => {
   const validationSpy = new ValidationSpy()
-  const sut = new LoginController(validationSpy)
+  const authenticationSpy = new AuthenticationSpy()
+  const sut = new LoginController(validationSpy, authenticationSpy)
 
   return {
     sut,
-    validationSpy
+    validationSpy,
+    authenticationSpy
   }
 }
 
@@ -32,5 +35,11 @@ describe('Login Controller', () => {
     validationSpy.error = new Error()
     const error = await sut.handle({ email, password })
     expect(error).toEqual(badRequest(validationSpy.error))
+  })
+
+  it('should call Authentication with correct values', async () => {
+    const { sut, authenticationSpy } = makeSut()
+    await sut.handle({ email, password })
+    expect(authenticationSpy.AuthenticationParams).toEqual({ email, password })
   })
 })
