@@ -1,6 +1,7 @@
 import { accountParams } from '@/tests/mocks'
 import { ValidationSpy } from '@/tests/presentation/mocks'
 import { LoginController } from '@/presentation/controllers'
+import { badRequest } from '@/presentation/helpers'
 
 const { email, password } = accountParams
 
@@ -24,5 +25,12 @@ describe('Login Controller', () => {
     const { sut, validationSpy } = makeSut()
     await sut.handle({ email, password })
     expect(validationSpy.input).toEqual({ email, password })
+  })
+
+  it('should return 400 if Validation returns in error', async () => {
+    const { sut, validationSpy } = makeSut()
+    validationSpy.error = new Error()
+    const error = await sut.handle({ email, password })
+    expect(error).toEqual(badRequest(validationSpy.error))
   })
 })
