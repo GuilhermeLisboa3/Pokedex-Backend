@@ -14,7 +14,13 @@ export class LoginController implements Controller {
       return badRequest(error)
     }
     const { email, password } = request
-    await this.authentication.auth({ email, password })
+    const authenticationModel = await this.authentication.auth({ email, password })
+    if (!authenticationModel) {
+      return {
+        statusCode: 401,
+        body: new Error('Unauthorized')
+      }
+    }
   }
 }
 
