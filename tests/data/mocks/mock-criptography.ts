@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { Hasher } from '@/data/protocols'
+import { Hasher, HasherComparer } from '@/data/protocols'
 
 export class HasherSpy implements Hasher {
   password: string
@@ -7,5 +7,17 @@ export class HasherSpy implements Hasher {
   async hash (password: string): Promise<string> {
     this.password = password
     return this.hasherPassword
+  }
+}
+
+export class HasherComparerSpy implements HasherComparer {
+  password: string
+  hashPassword: string
+  result = true
+
+  async hashComparer (password: string, hashPassword): Promise<boolean> {
+    this.password = password
+    this.hashPassword = hashPassword
+    return this.result
   }
 }
