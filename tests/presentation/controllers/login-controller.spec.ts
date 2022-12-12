@@ -42,4 +42,14 @@ describe('Login Controller', () => {
     await sut.handle({ email, password })
     expect(authenticationSpy.AuthenticationParams).toEqual({ email, password })
   })
+
+  it('should return 401 if Authentication returns null', async () => {
+    const { sut, authenticationSpy } = makeSut()
+    authenticationSpy.authenticationModel = null
+    const error = await sut.handle({ email, password })
+    expect(error).toEqual({
+      statusCode: 401,
+      body: new Error('Unauthorized')
+    })
+  })
 })
