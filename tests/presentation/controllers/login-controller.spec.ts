@@ -1,7 +1,7 @@
 import { accountParams } from '@/tests/mocks'
 import { ValidationSpy, AuthenticationSpy } from '@/tests/presentation/mocks'
 import { LoginController } from '@/presentation/controllers'
-import { badRequest } from '@/presentation/helpers'
+import { badRequest, unauthorized } from '@/presentation/helpers'
 
 const { email, password } = accountParams
 
@@ -47,9 +47,6 @@ describe('Login Controller', () => {
     const { sut, authenticationSpy } = makeSut()
     authenticationSpy.authenticationModel = null
     const error = await sut.handle({ email, password })
-    expect(error).toEqual({
-      statusCode: 401,
-      body: new Error('Unauthorized')
-    })
+    expect(error).toEqual(unauthorized())
   })
 })
