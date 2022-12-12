@@ -1,7 +1,7 @@
 import { accountParams } from '@/tests/mocks'
 import { ValidationSpy, AuthenticationSpy } from '@/tests/presentation/mocks'
 import { LoginController } from '@/presentation/controllers'
-import { badRequest, serverError, unauthorized } from '@/presentation/helpers'
+import { badRequest, ok, serverError, unauthorized } from '@/presentation/helpers'
 
 const { email, password } = accountParams
 
@@ -55,5 +55,11 @@ describe('Login Controller', () => {
     jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(() => { throw new Error() })
     const error = await sut.handle({ email, password })
     expect(error).toEqual(serverError(new Error()))
+  })
+
+  it('should return 200 on success', async () => {
+    const { sut, authenticationSpy } = makeSut()
+    const httpResponse = await sut.handle({ email, password })
+    expect(httpResponse).toEqual(ok(authenticationSpy.authenticationModel))
   })
 })
