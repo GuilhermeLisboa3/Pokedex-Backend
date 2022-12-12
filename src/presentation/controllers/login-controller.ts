@@ -1,5 +1,5 @@
 import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
-import { badRequest, serverError, unauthorized } from '@/presentation/helpers'
+import { badRequest, ok, serverError, unauthorized } from '@/presentation/helpers'
 import { Authentication } from '@/domain/usecases'
 
 export class LoginController implements Controller {
@@ -19,6 +19,7 @@ export class LoginController implements Controller {
       if (!authenticationModel) {
         return unauthorized()
       }
+      return ok(authenticationModel)
     } catch (error) {
       return serverError(error)
     }
