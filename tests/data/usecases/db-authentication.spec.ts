@@ -3,6 +3,7 @@ import { accountParams } from '@/tests/mocks'
 import { DbAuthentication } from '@/data/usecase'
 
 const { email, password } = accountParams
+const mockAuthenticationParams = { email, password }
 
 type SutTypes = {
   sut: DbAuthentication
@@ -69,5 +70,13 @@ describe('DbAuthentication', () => {
     jest.spyOn(encrypterSpy, 'encrypt').mockImplementationOnce(() => { throw new Error() })
     const promise = sut.auth({ email, password })
     await expect(promise).rejects.toThrow()
+  })
+
+  it('should return an AuthenticationModel on success', async () => {
+    const { sut, encrypterSpy, loadByEmailRepositorySpy } = makeSut()
+    const { token, email, name } = await sut.auth(mockAuthenticationParams)
+    expect(token).toBe(encrypterSpy.result)
+    expect(name).toBe(loadByEmailRepositorySpy.result.name)
+    expect(email).toBe(loadByEmailRepositorySpy.email)
   })
 })
