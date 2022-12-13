@@ -40,4 +40,11 @@ describe('DbAuthentication', () => {
     expect(hasherComparerSpy.password).toBe(password)
     expect(hasherComparerSpy.hashPassword).toBe(loadByEmailRepositorySpy.result.password)
   })
+
+  it('should return null if HasherComparer returns false', async () => {
+    const { sut, hasherComparerSpy } = makeSut()
+    hasherComparerSpy.result = false
+    const httpResponse = await sut.auth({ email, password })
+    expect(httpResponse).toBeNull()
+  })
 })
