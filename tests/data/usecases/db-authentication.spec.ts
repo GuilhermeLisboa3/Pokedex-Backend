@@ -47,4 +47,11 @@ describe('DbAuthentication', () => {
     const httpResponse = await sut.auth({ email, password })
     expect(httpResponse).toBeNull()
   })
+
+  it('should throw if HasherComparer returns throws', async () => {
+    const { sut, hasherComparerSpy } = makeSut()
+    jest.spyOn(hasherComparerSpy, 'hashComparer').mockImplementationOnce(() => { throw new Error() })
+    const promise = sut.auth({ email, password })
+    await expect(promise).rejects.toThrow()
+  })
 })
