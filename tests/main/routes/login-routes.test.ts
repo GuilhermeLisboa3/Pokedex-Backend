@@ -12,14 +12,16 @@ describe('SignUp Routes', () => {
   afterAll(async () => {
     await sequelize.close()
   })
-  it('should return an account on sucess ', async () => {
-    await request(app)
-      .post('/register')
-      .send({
-        name,
-        email,
-        password
-      })
-      .expect(200)
+  describe('/register', () => {
+    it('should return an account on sucess ', async () => {
+      await request(app)
+        .post('/register')
+        .send({
+          name,
+          email,
+          password
+        })
+        .expect(200)
+    })
   })
 })
