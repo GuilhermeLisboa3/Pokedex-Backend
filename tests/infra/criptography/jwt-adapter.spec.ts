@@ -18,4 +18,10 @@ describe('jsonWebToken Adapter', () => {
     await sut.encrypt('any_id')
     expect(signSpy).toHaveBeenCalledWith({ id: 'any_id' }, 'secret', { expiresIn: '7d' })
   })
+
+  it('should return a token on sign success', async () => {
+    const sut = makeSut()
+    const token = await sut.encrypt('any_id')
+    expect(token).toBe('valid_token')
+  })
 })
