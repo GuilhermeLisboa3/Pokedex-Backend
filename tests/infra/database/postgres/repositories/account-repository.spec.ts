@@ -49,5 +49,11 @@ describe('Account Repository', () => {
       expect(account.name).toBe(name)
       expect(account.password).toBe(password)
     })
+
+    it('should return null if loadByEmail fails', async () => {
+      const sut = makeSut()
+      const account = await sut.loadByEmail(email)
+      expect(account).toBeFalsy()
+    })
   })
 })
