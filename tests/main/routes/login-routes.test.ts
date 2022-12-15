@@ -1,7 +1,8 @@
 import request from 'supertest'
-import { sequelize } from '@/infra/database/postgres/entities'
+import { sequelize, Account } from '@/infra/database/postgres/entities'
 import { app } from '@/main/config/app'
 import { accountParams } from '@/tests/mocks'
+import { hash } from 'bcrypt'
 
 const { name, email, password } = accountParams
 
@@ -20,6 +21,24 @@ describe('SignUp Routes', () => {
           name,
           email,
           password
+        })
+        .expect(200)
+    })
+  })
+
+  describe('/login', () => {
+    it('should return 200 on login', async () => {
+      const password = await hash('valid_password', 12)
+      await Account.create({
+        name: 'valid_name',
+        email: 'valid_email@email.com',
+        password
+      })
+      await request(app)
+        .post('/login')
+        .send({
+          email: 'valid_email@email.com',
+          password: 'valid_password'
         })
         .expect(200)
     })
