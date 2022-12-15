@@ -37,4 +37,17 @@ describe('Account Repository', () => {
       expect(account).toBe(true)
     })
   })
+
+  describe('loadByEmail()', () => {
+    it('should return an account on success', async () => {
+      const sut = makeSut()
+      await Account.create({ name, email, password })
+      const account = await sut.loadByEmail(email)
+
+      expect(account).toBeTruthy()
+      expect(account.id).toBeTruthy()
+      expect(account.name).toBe(name)
+      expect(account.password).toBe(password)
+    })
+  })
 })
