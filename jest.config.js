@@ -1,7 +1,9 @@
 module.exports = {
   roots: ['<rootDir>/tests'],
   collectCoverageFrom: [
-    '<rootDir>/src/**/*.ts'
+    '<rootDir>/src/**/*.ts',
+    '!<rootDir>/src/main/**',
+    '!<rootDir>/src/infra/database/postgres/helpers/**'
   ],
   coverageDirectory: 'coverage',
   coverageProvider: 'babel',
