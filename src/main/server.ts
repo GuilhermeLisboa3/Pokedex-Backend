@@ -1,7 +1,8 @@
 import 'module-alias/register'
 import { postgresHelpers } from '../infra/database/postgres/helpers'
+import env from '@/main/config/env'
 
-const port = process.env.PORT || 3001
+const port = env.port
 
 postgresHelpers.connect().authenticate()
   .then(async () => {
