@@ -24,4 +24,11 @@ describe('jsonWebToken Adapter', () => {
     const token = await sut.encrypt('any_id')
     expect(token).toBe('valid_token')
   })
+
+  it('should throw if sign returns throws', async () => {
+    const sut = makeSut()
+    jest.spyOn(jwt, 'sign').mockImplementationOnce(() => { throw new Error() })
+    const promise = sut.encrypt('any_id')
+    await expect(promise).rejects.toThrow()
+  })
 })
