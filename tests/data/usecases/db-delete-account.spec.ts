@@ -20,13 +20,13 @@ const makeSut = (): SutTypes => {
 }
 
 describe('DbDeleteAccount', () => {
-  it('should call checkById with correct id', async () => {
+  it('should call CheckByIdRepository with correct id', async () => {
     const { sut, checkByIdRepositorySpy } = makeSut()
     await sut.delete(id)
     expect(checkByIdRepositorySpy.id).toBe(id)
   })
 
-  it('should return error if checkById returns false', async () => {
+  it('should return error if CheckByIdRepository returns false', async () => {
     const { sut, checkByIdRepositorySpy } = makeSut()
     checkByIdRepositorySpy.result = false
     const error = await sut.delete(id)
