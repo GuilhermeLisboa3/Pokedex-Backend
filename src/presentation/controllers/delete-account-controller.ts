@@ -1,5 +1,6 @@
 import { Controller, HttpResponse } from '@/presentation/protocols'
 import { DeleteById } from '@/domain/usecases'
+import { badRequest } from '../helpers'
 
 export class DeleteAccountController implements Controller {
   constructor (
@@ -7,7 +8,10 @@ export class DeleteAccountController implements Controller {
   ) {}
 
   async handle (request: any): Promise<HttpResponse> {
-    await this.deleteById.delete(request.id)
+    const error = await this.deleteById.delete(request.id)
+    if (error) {
+      return badRequest(error)
+    }
     return null
   }
 }
