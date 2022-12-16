@@ -1,7 +1,7 @@
 import { accountParams } from '@/tests/mocks'
 import { DeleteByIdSpy } from '@/tests/presentation/mocks'
 import { DeleteAccountController } from '@/presentation/controllers'
-import { badRequest } from '@/presentation/helpers'
+import { badRequest, serverError } from '@/presentation/helpers'
 
 const { id } = accountParams
 
@@ -31,5 +31,12 @@ describe('deleteAccount Controller', () => {
     deleteByIdSpy.result = new Error()
     const error = await sut.handle({ id })
     expect(error).toEqual(badRequest(deleteByIdSpy.result))
+  })
+
+  it('should return 500 if delete returns throws', async () => {
+    const { sut, deleteByIdSpy } = makeSut()
+    jest.spyOn(deleteByIdSpy, 'delete').mockImplementationOnce(() => { throw new Error() })
+    const error = await sut.handle({ id })
+    expect(error).toEqual(serverError(new Error()))
   })
 })
