@@ -39,4 +39,13 @@ describe('deleteAccount Controller', () => {
     const error = await sut.handle({ id })
     expect(error).toEqual(serverError(new Error()))
   })
+
+  it('should return 204 on success', async () => {
+    const { sut } = makeSut()
+    const httpReposnse = await sut.handle({ id })
+    expect(httpReposnse).toEqual({
+      statusCode: 204,
+      body: null
+    })
+  })
 })
