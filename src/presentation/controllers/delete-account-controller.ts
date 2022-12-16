@@ -13,7 +13,10 @@ export class DeleteAccountController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      return null
+      return {
+        statusCode: 204,
+        body: null
+      }
     } catch (error) {
       return serverError(error)
     }
