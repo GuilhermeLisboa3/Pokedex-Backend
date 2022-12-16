@@ -1,4 +1,4 @@
-import { AddAccount, Authentication } from '@/domain/usecases'
+import { AddAccount, Authentication, DeleteById } from '@/domain/usecases'
 import { accountParams } from '@/tests/mocks'
 export class AddAccountSpy implements AddAccount {
   addAccountParams: AddAccount.Params
@@ -20,5 +20,14 @@ export class AuthenticationSpy implements Authentication {
   async auth (authenticationParams: Authentication.Params): Promise<Authentication.Result> {
     this.AuthenticationParams = authenticationParams
     return this.authenticationModel
+  }
+}
+
+export class DeleteByIdSpy implements DeleteById {
+  id: string
+  result = true
+  async delete (id: string): Promise<boolean> {
+    this.id = id
+    return this.result
   }
 }
