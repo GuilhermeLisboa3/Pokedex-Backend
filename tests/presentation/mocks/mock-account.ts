@@ -25,8 +25,8 @@ export class AuthenticationSpy implements Authentication {
 
 export class DeleteByIdSpy implements DeleteById {
   id: string
-  result = null
-  async delete (id: string): Promise<Error> {
+  result = true
+  async delete (id: string): Promise<boolean> {
     this.id = id
     return this.result
   }

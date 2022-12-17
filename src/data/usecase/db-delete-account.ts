@@ -6,9 +6,9 @@ export class DbDeleteAccount implements DeleteById {
     private readonly checkByIdRepository: CheckByIdRepository
   ) {}
 
-  async delete (id: string): Promise<Error> {
+  async delete (id: string): Promise<boolean> {
     const exists = await this.checkByIdRepository.checkById(id)
-    if (!exists) return new Error('The received id does not exists')
+    if (!exists) return null
     return null
   }
 }

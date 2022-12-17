@@ -30,6 +30,6 @@ describe('DbDeleteAccount', () => {
     const { sut, checkByIdRepositorySpy } = makeSut()
     checkByIdRepositorySpy.result = false
     const error = await sut.delete(id)
-    expect(error).toEqual(new Error('The received id does not exists'))
+    expect(error).toBeNull()
   })
 })

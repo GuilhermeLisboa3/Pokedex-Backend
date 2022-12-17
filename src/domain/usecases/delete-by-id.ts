@@ -1,4 +1,4 @@
 
 export interface DeleteById {
-  delete: (id: string) => Promise<Error>
+  delete: (id: string) => Promise<boolean>
 }

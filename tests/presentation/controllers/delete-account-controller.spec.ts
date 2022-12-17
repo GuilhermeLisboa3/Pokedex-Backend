@@ -2,6 +2,7 @@ import { accountParams } from '@/tests/mocks'
 import { DeleteByIdSpy } from '@/tests/presentation/mocks'
 import { DeleteAccountController } from '@/presentation/controllers'
 import { badRequest, serverError } from '@/presentation/helpers'
+import { NonExistentFieldError } from '@/presentation/errors'
 
 const { id } = accountParams
 
@@ -26,11 +27,11 @@ describe('deleteAccount Controller', () => {
     expect(deleteByIdSpy.id).toBe(id)
   })
 
-  it('should return badRequest if delete returns error', async () => {
+  it('should return badRequest if delete returns null', async () => {
     const { sut, deleteByIdSpy } = makeSut()
-    deleteByIdSpy.result = new Error()
+    deleteByIdSpy.result = null
     const error = await sut.handle({ id })
-    expect(error).toEqual(badRequest(deleteByIdSpy.result))
+    expect(error).toEqual(badRequest(new NonExistentFieldError('id')))
   })
 
   it('should return 500 if delete returns throws', async () => {
