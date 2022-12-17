@@ -11,6 +11,6 @@ export class DbDeleteAccount implements DeleteById {
     const exists = await this.checkByIdRepository.checkById(id)
     if (!exists) return null
     await this.deleteByIdRepository.deleteById(id)
-    return null
+    return true
   }
 }
