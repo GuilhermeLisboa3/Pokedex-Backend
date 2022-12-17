@@ -55,4 +55,10 @@ describe('DbDeleteAccount', () => {
     const promise = sut.delete(id)
     await expect(promise).rejects.toThrow()
   })
+
+  it('should return true on success', async () => {
+    const { sut } = makeSut()
+    const deleteAccount = await sut.delete(id)
+    expect(deleteAccount).toBe(true)
+  })
 })
