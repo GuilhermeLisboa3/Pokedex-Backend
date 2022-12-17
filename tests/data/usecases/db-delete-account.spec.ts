@@ -1,5 +1,5 @@
 import { accountParams } from '@/tests/mocks'
-import { CheckByIdRepositorySpy } from '@/tests/data/mocks'
+import { CheckByIdRepositorySpy, DeleteByIdRepositorySpy } from '@/tests/data/mocks'
 import { DbDeleteAccount } from '@/data/usecase'
 
 const { id } = accountParams
@@ -7,15 +7,18 @@ const { id } = accountParams
 type SutTypes = {
   sut: DbDeleteAccount
   checkByIdRepositorySpy: CheckByIdRepositorySpy
+  deleteByIdRepositorySpy: DeleteByIdRepositorySpy
 }
 
 const makeSut = (): SutTypes => {
   const checkByIdRepositorySpy = new CheckByIdRepositorySpy()
-  const sut = new DbDeleteAccount(checkByIdRepositorySpy)
+  const deleteByIdRepositorySpy = new DeleteByIdRepositorySpy()
+  const sut = new DbDeleteAccount(checkByIdRepositorySpy, deleteByIdRepositorySpy)
 
   return {
     sut,
-    checkByIdRepositorySpy
+    checkByIdRepositorySpy,
+    deleteByIdRepositorySpy
   }
 }
 
@@ -38,5 +41,11 @@ describe('DbDeleteAccount', () => {
     jest.spyOn(checkByIdRepositorySpy, 'checkById').mockImplementationOnce(() => { throw new Error() })
     const promise = sut.delete(id)
     await expect(promise).rejects.toThrow()
+  })
+
+  it('should call DeleteByIdRepository with correct id', async () => {
+    const { sut, deleteByIdRepositorySpy } = makeSut()
+    await sut.delete(id)
+    expect(deleteByIdRepositorySpy.id).toBe(id)
   })
 })
