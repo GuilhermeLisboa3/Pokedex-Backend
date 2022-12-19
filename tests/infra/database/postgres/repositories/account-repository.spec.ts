@@ -56,4 +56,15 @@ describe('Account Repository', () => {
       expect(account).toBeFalsy()
     })
   })
+
+  describe('deleteById()', () => {
+    it('should delete account on success', async () => {
+      const sut = makeSut()
+      await Account.create({ name, email, password })
+      const { id } = await sut.loadByEmail(email)
+      await sut.deleteById(id)
+
+      expect(await Account.findOne({ where: { id } })).toBeNull()
+    })
+  })
 })
