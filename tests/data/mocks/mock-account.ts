@@ -1,4 +1,4 @@
-import { CheckAccountByEmailRepository, AddAccountRepository, LoadByEmailRepository, CheckByIdRepository, DeleteByIdRepository } from '@/data/protocols'
+import { CheckAccountByEmailRepository, AddAccountRepository, LoadByEmailRepository, CheckByIdRepository } from '@/data/protocols'
 import { accountParams } from '@/tests/mocks'
 
 const { id, name, password } = accountParams
@@ -41,12 +41,5 @@ export class CheckByIdRepositorySpy implements CheckByIdRepository {
   async checkById (id: string): Promise<boolean> {
     this.id = id
     return this.result
-  }
-}
-
-export class DeleteByIdRepositorySpy implements DeleteByIdRepository {
-  id: string
-  async deleteById (id: string): Promise<void> {
-    this.id = id
   }
 }
