@@ -61,10 +61,21 @@ describe('Account Repository', () => {
     it('should delete account on success', async () => {
       const sut = makeSut()
       await Account.create({ name, email, password })
-      const { id } = await sut.loadByEmail(email)
+      const { id } = await Account.findOne({ where: { email } })
       await sut.deleteById(id)
 
       expect(await Account.findOne({ where: { id } })).toBeNull()
+    })
+  })
+
+  describe('checkById()', () => {
+    it('should return true if id valid', async () => {
+      const sut = makeSut()
+      await Account.create({ name, email, password })
+      const { id } = await Account.findOne({ where: { email } })
+      const account = await sut.checkById(id)
+
+      expect(account).toBe(true)
     })
   })
 })
