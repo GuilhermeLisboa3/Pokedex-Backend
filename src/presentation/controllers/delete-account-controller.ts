@@ -1,6 +1,6 @@
 import { Controller, HttpResponse } from '@/presentation/protocols'
 import { DeleteById } from '@/domain/usecases'
-import { badRequest, serverError } from '../helpers'
+import { badRequest, serverError, noContent } from '../helpers'
 import { NonExistentFieldError } from '@/presentation/errors'
 
 export class DeleteAccountController implements Controller {
@@ -14,10 +14,7 @@ export class DeleteAccountController implements Controller {
       if (!deleteAccount) {
         return badRequest(new NonExistentFieldError('id'))
       }
-      return {
-        statusCode: 204,
-        body: null
-      }
+      return noContent()
     } catch (error) {
       return serverError(error)
     }

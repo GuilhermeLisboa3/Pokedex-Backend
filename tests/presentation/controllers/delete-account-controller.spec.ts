@@ -1,7 +1,7 @@
 import { accountParams } from '@/tests/mocks'
 import { DeleteByIdSpy } from '@/tests/presentation/mocks'
 import { DeleteAccountController } from '@/presentation/controllers'
-import { badRequest, serverError } from '@/presentation/helpers'
+import { badRequest, serverError, noContent } from '@/presentation/helpers'
 import { NonExistentFieldError } from '@/presentation/errors'
 
 const { id } = accountParams
@@ -44,9 +44,6 @@ describe('deleteAccount Controller', () => {
   it('should return 204 on success', async () => {
     const { sut } = makeSut()
     const httpReposnse = await sut.handle({ id })
-    expect(httpReposnse).toEqual({
-      statusCode: 204,
-      body: null
-    })
+    expect(httpReposnse).toEqual(noContent())
   })
 })
