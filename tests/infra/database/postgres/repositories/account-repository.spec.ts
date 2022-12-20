@@ -77,5 +77,15 @@ describe('Account Repository', () => {
 
       expect(account).toBe(true)
     })
+
+    it('should return false if id is invalid', async () => {
+      const sut = makeSut()
+      await Account.create({ name, email, password })
+      const { id } = await Account.findOne({ where: { email } })
+      await Account.destroy({ where: { id } })
+      const account = await sut.checkById(id)
+
+      expect(account).toBe(false)
+    })
   })
 })
