@@ -5,5 +5,5 @@ export const accountParams = {
   name: faker.name.fullName(),
   email: faker.internet.email(),
   password: faker.internet.password(),
-  accessToken: faker.datatype.uuid()
+  token: faker.datatype.uuid()
 }
