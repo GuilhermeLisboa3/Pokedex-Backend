@@ -53,4 +53,14 @@ describe('SignUp Routes', () => {
         .expect(401)
     })
   })
+  describe('/user', () => {
+    it('should delete an account on success ', async () => {
+      await Account.create({ name, email, password })
+      const { id } = await Account.findOne({ where: { email } })
+      await request(app)
+        .delete('/user')
+        .send({ id })
+        .expect(204)
+    })
+  })
 })
