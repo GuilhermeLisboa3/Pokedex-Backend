@@ -3,6 +3,7 @@ import { sequelize, Account } from '@/infra/database/postgres/entities'
 import { app } from '@/main/config/app'
 import { accountParams } from '@/tests/mocks'
 import { hash } from 'bcrypt'
+import { NonExistentFieldError } from '@/presentation/errors'
 
 const { name, email, password } = accountParams
 
@@ -61,6 +62,17 @@ describe('SignUp Routes', () => {
         .delete('/user')
         .send({ id })
         .expect(204)
+    })
+
+    it('should return 400 if no have account with id provided ', async () => {
+      await Account.create({ name, email, password })
+      const { id } = await Account.findOne({ where: { email } })
+      await Account.destroy({ where: { id } })
+      const { status, body: { error } } = await request(app)
+        .delete('/user')
+        .send({ id })
+      expect(status).toBe(400)
+      expect(error).toEqual(new NonExistentFieldError('id').message)
     })
   })
 })
