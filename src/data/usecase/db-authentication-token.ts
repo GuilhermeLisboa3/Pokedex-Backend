@@ -1,16 +1,21 @@
 import { AuthenticationToken } from '@/domain/usecases'
-import { Decrypter } from '@/data/protocols'
+import { Decrypter, LoadAccountByIdRepository } from '@/data/protocols'
 
 export class DbAuthenticationToken implements AuthenticationToken {
   constructor (
-    private readonly decrypter: Decrypter
+    private readonly decrypter: Decrypter,
+    private readonly loadAccountByIdRepository: LoadAccountByIdRepository
   ) {}
 
   async authToken (token: string): Promise<AuthenticationToken.Result> {
+    let accountId
     try {
-      await this.decrypter.decrypt(token)
+      accountId = await this.decrypter.decrypt(token)
     } catch (error) {
       return null
+    }
+    if (accountId) {
+      await this.loadAccountByIdRepository.loadById(accountId)
     }
     return null
   }
