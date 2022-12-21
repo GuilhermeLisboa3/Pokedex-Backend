@@ -1,4 +1,4 @@
-import { forbidden } from '@/presentation/helpers'
+import { forbidden, ok } from '@/presentation/helpers'
 import { AccessDeniedError } from '@/presentation/errors'
 import { AuthMiddleware } from '@/presentation/middlewares'
 import { accountParams } from '@/tests/mocks'
@@ -38,5 +38,11 @@ describe('Auth Middleware', () => {
     authenticationTokenSpy.accountId = null
     const httpResponse = await sut.handle({ token })
     expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))
+  })
+
+  it('should return 200 if AuthenticationToken returns account', async () => {
+    const { sut, authenticationTokenSpy } = makeSut()
+    const httpResponse = await sut.handle({ token })
+    expect(httpResponse).toEqual(ok(authenticationTokenSpy.accountId))
   })
 })
