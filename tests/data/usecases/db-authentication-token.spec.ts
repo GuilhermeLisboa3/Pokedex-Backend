@@ -47,4 +47,11 @@ describe('DbAuthenticationToken', () => {
     await sut.authToken(token)
     expect(loadAccountByIdRepositorySpy.id).toBe(decrypterSpy.result)
   })
+
+  it('should return null if LoadAccountByIdRepository return null', async () => {
+    const { sut, loadAccountByIdRepositorySpy } = makeSut()
+    loadAccountByIdRepositorySpy.result = null
+    const accountId = await sut.authToken(token)
+    expect(accountId).toBe(null)
+  })
 })
