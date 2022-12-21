@@ -15,7 +15,8 @@ export class DbAuthenticationToken implements AuthenticationToken {
       return null
     }
     if (accountId) {
-      await this.loadAccountByIdRepository.loadById(accountId)
+      const account = await this.loadAccountByIdRepository.loadById(accountId)
+      if (account) return account
     }
     return null
   }
