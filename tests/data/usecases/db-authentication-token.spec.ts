@@ -60,4 +60,11 @@ describe('DbAuthenticationToken', () => {
     const accountId = await sut.authToken(token)
     expect(accountId).toEqual(loadAccountByIdRepositorySpy.result)
   })
+
+  it('should throws if LoadAccountByIdRepository throws', async () => {
+    const { sut, loadAccountByIdRepositorySpy } = makeSut()
+    jest.spyOn(loadAccountByIdRepositorySpy, 'loadById').mockImplementationOnce(() => { throw new Error() })
+    const promise = sut.authToken(token)
+    await expect(promise).rejects.toThrow()
+  })
 })
