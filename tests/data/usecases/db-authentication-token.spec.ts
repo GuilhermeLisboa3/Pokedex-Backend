@@ -24,4 +24,11 @@ describe('DbAuthenticationToken', () => {
     await sut.authToken(id)
     expect(decrypterSpy.plaintext).toBe(id)
   })
+
+  it('should return null if Decrypter returns null', async () => {
+    const { sut, decrypterSpy } = makeSut()
+    decrypterSpy.result = null
+    const accountId = await sut.authToken(id)
+    expect(accountId).toBeNull()
+  })
 })
