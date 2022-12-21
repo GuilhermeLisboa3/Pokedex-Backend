@@ -11,7 +11,8 @@ export class AuthMiddleware implements Middleware {
     try {
       const { token } = request
       if (token) {
-        const account = await this.authenticationToken.authToken(token)
+        const accessToken = token.replace(/Bearer/, '')
+        const account = await this.authenticationToken.authToken(accessToken)
         if (account) {
           return ok({ id: account.id })
         }
