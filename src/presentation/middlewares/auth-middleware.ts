@@ -1,5 +1,5 @@
 import { HttpResponse, Middleware } from '@/presentation/protocols'
-import { forbidden, ok } from '@/presentation/helpers'
+import { forbidden, ok, serverError } from '@/presentation/helpers'
 import { AccessDeniedError } from '@/presentation/errors'
 import { AuthenticationToken } from '@/domain/usecases'
 export class AuthMiddleware implements Middleware {
@@ -8,14 +8,18 @@ export class AuthMiddleware implements Middleware {
   ) {}
 
   async handle (request: AuthMiddleware.Request): Promise<HttpResponse> {
-    const { token } = request
-    if (token) {
-      const account = await this.authenticationToken.authToken(token)
-      if (account) {
-        return ok({ id: account.id })
+    try {
+      const { token } = request
+      if (token) {
+        const account = await this.authenticationToken.authToken(token)
+        if (account) {
+          return ok({ id: account.id })
+        }
       }
+      return forbidden(new AccessDeniedError())
+    } catch (error) {
+      return serverError(error)
     }
-    return forbidden(new AccessDeniedError())
   }
 }
 
