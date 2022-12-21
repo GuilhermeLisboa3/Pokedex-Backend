@@ -1,4 +1,4 @@
-import { forbidden, ok } from '@/presentation/helpers'
+import { forbidden, ok, serverError } from '@/presentation/helpers'
 import { AccessDeniedError } from '@/presentation/errors'
 import { AuthMiddleware } from '@/presentation/middlewares'
 import { accountParams } from '@/tests/mocks'
@@ -44,5 +44,12 @@ describe('Auth Middleware', () => {
     const { sut, authenticationTokenSpy } = makeSut()
     const httpResponse = await sut.handle({ token })
     expect(httpResponse).toEqual(ok(authenticationTokenSpy.accountId))
+  })
+
+  it('should throw if AuthenticationToken returns throws', async () => {
+    const { sut, authenticationTokenSpy } = makeSut()
+    jest.spyOn(authenticationTokenSpy, 'authToken').mockImplementationOnce(() => { throw new Error() })
+    const httpResponse = await sut.handle({ token })
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
