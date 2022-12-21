@@ -1,7 +1,7 @@
-import { CheckAccountByEmailRepository, AddAccountRepository, LoadByEmailRepository, CheckByIdRepository } from '@/data/protocols'
+import { CheckAccountByEmailRepository, AddAccountRepository, LoadByEmailRepository, CheckByIdRepository, LoadAccountByIdRepository } from '@/data/protocols'
 import { accountParams } from '@/tests/mocks'
 
-const { id, name, password } = accountParams
+const { id, name, email, password } = accountParams
 
 export class CheckAccountByEmailRepositorySpy implements CheckAccountByEmailRepository {
   result = false
@@ -39,6 +39,20 @@ export class CheckByIdRepositorySpy implements CheckByIdRepository {
   id: string
   result = true
   async checkById (id: string): Promise<boolean> {
+    this.id = id
+    return this.result
+  }
+}
+
+export class LoadAccountByIdRepositorySpy implements LoadAccountByIdRepository {
+  id: string
+  result = {
+    id,
+    name,
+    email
+  }
+
+  async loadById (id: string): Promise<LoadAccountByIdRepository.Result> {
     this.id = id
     return this.result
   }
