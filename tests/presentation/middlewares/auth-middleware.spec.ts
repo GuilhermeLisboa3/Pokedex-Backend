@@ -32,4 +32,11 @@ describe('Auth Middleware', () => {
     await sut.handle({ token })
     expect(authenticationTokenSpy.token).toEqual(token)
   })
+
+  it('should return 403 if AuthenticationToken returns null', async () => {
+    const { sut, authenticationTokenSpy } = makeSut()
+    authenticationTokenSpy.accountId = null
+    const httpResponse = await sut.handle({ token })
+    expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))
+  })
 })
