@@ -31,4 +31,11 @@ describe('DbAuthenticationToken', () => {
     const accountId = await sut.authToken(id)
     expect(accountId).toBeNull()
   })
+
+  it('should throws if Decrypter throws', async () => {
+    const { sut, decrypterSpy } = makeSut()
+    jest.spyOn(decrypterSpy, 'decrypt').mockImplementationOnce(() => { throw new Error() })
+    const accountId = await sut.authToken(id)
+    expect(accountId).toBeNull()
+  })
 })
