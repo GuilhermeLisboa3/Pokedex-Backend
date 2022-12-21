@@ -7,7 +7,11 @@ export class DbAuthenticationToken implements AuthenticationToken {
   ) {}
 
   async authToken (token: string): Promise<AuthenticationToken.Result> {
-    await this.decrypter.decrypt(token)
+    try {
+      await this.decrypter.decrypt(token)
+    } catch (error) {
+      return null
+    }
     return null
   }
 }
