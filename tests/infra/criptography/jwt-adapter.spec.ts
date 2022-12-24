@@ -44,5 +44,11 @@ describe('jsonWebToken Adapter', () => {
       await sut.decrypt('any_id')
       expect(verifySpy).toHaveBeenCalledWith('any_id', 'secret', expect.any(Function))
     })
+
+    it('should return accountId on success', async () => {
+      const sut = makeSut()
+      const accountId = await sut.decrypt('any_id')
+      expect(accountId).toBe('any_id')
+    })
   })
 })
