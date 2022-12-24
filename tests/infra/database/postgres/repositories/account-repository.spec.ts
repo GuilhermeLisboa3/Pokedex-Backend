@@ -101,5 +101,14 @@ describe('Account Repository', () => {
       expect(account.name).toBe(name)
       expect(account.email).toBe(email)
     })
+
+    it('should return null if loadById fails', async () => {
+      const sut = makeSut()
+      await Account.create({ name, email, password })
+      const { id } = await Account.findOne({ where: { email } })
+      await Account.destroy({ where: { id } })
+      const account = await sut.loadById(id)
+      expect(account).toBeFalsy()
+    })
   })
 })
