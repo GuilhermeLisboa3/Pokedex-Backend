@@ -88,4 +88,18 @@ describe('Account Repository', () => {
       expect(account).toBe(false)
     })
   })
+
+  describe('loadById()', () => {
+    it('should return an account on success', async () => {
+      const sut = makeSut()
+      await Account.create({ name, email, password })
+      const { id } = await Account.findOne({ where: { email } })
+      const account = await sut.loadById(id)
+
+      expect(account).toBeTruthy()
+      expect(account.id).toBeTruthy()
+      expect(account.name).toBe(name)
+      expect(account.email).toBe(email)
+    })
+  })
 })
