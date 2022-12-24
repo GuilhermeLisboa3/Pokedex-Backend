@@ -13,13 +13,12 @@ export class JwtAdapter implements Encrypter, Decrypter {
   }
 
   async decrypt (plaintext: string): Promise<string> {
-    await jwt.verify(plaintext, this.secret,
-      (err, decoded) => {
-        if (err || typeof decoded === 'undefined') {
-          return null
-        }
-        return (decoded as JwtPayload).id
-      })
-    return null
+    const accountId: any = await jwt.verify(plaintext, this.secret, (err, decoded) => {
+      if (err || typeof decoded === 'undefined') {
+        return null
+      }
+      return (decoded as JwtPayload).id
+    })
+    return accountId
   }
 }

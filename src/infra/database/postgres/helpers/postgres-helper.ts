@@ -9,7 +9,8 @@ export const postgresHelpers = {
     const dbUrl = process.env.DATABASE_URL
     if (dbUrl === undefined) throw new Error('DATABASE_URL environment variable is not defined')
     const defaultOptions: Options = {
-      define: { underscored: true }
+      define: { underscored: true },
+      logging: process.env.NODE_ENV !== 'test' ? console.log : false
     }
     this.client = new Sequelize(dbUrl, defaultOptions)
     return this.client
