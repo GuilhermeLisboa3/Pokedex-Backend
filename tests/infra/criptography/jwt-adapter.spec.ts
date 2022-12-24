@@ -50,5 +50,12 @@ describe('jsonWebToken Adapter', () => {
       const accountId = await sut.decrypt('any_id')
       expect(accountId).toBe('any_id')
     })
+
+    it('should throw if encrypt returns throws', async () => {
+      const sut = makeSut()
+      jest.spyOn(jwt, 'verify').mockImplementationOnce(() => { throw new Error() })
+      const promise = sut.decrypt('any_id')
+      await expect(promise).rejects.toThrow()
+    })
   })
 })
