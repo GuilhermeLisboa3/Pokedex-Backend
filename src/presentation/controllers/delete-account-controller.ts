@@ -8,9 +8,9 @@ export class DeleteAccountController implements Controller {
     private readonly deleteById: DeleteById
   ) {}
 
-  async handle (request: any): Promise<HttpResponse> {
+  async handle (request: DeleteAccountController.Request): Promise<HttpResponse> {
     try {
-      const deleteAccount = await this.deleteById.delete(request.id)
+      const deleteAccount = await this.deleteById.delete(request.accountId)
       if (!deleteAccount) {
         return badRequest(new NonExistentFieldError('id'))
       }
@@ -18,5 +18,10 @@ export class DeleteAccountController implements Controller {
     } catch (error) {
       return serverError(error)
     }
+  }
+}
+export namespace DeleteAccountController {
+  export type Request = {
+    accountId: string
   }
 }

@@ -9,9 +9,9 @@ export class AuthMiddleware implements Middleware {
 
   async handle (request: AuthMiddleware.Request): Promise<HttpResponse> {
     try {
-      const { token } = request
-      if (token) {
-        const accessToken = token.replace(/Bearer/, '')
+      const { authorization } = request
+      if (authorization) {
+        const accessToken = authorization.replace(/Bearer /, '')
         const account = await this.authenticationToken.authToken(accessToken)
         if (account) {
           return ok({ id: account.id })
@@ -26,6 +26,6 @@ export class AuthMiddleware implements Middleware {
 
 export namespace AuthMiddleware {
   export type Request = {
-    token?: string
+    authorization?: any
   }
 }

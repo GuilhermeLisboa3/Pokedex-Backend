@@ -3,9 +3,22 @@ import { sequelize, Account } from '@/infra/database/postgres/entities'
 import { app } from '@/main/config/app'
 import { accountParams } from '@/tests/mocks'
 import { hash } from 'bcrypt'
-import { NonExistentFieldError } from '@/presentation/errors'
+import { AccessDeniedError } from '@/presentation/errors'
+import env from '@/main/config/env'
+import { sign } from 'jsonwebtoken'
 
 const { name, email, password } = accountParams
+
+const makeAccessToken = async (): Promise<string> => {
+  await Account.create({
+    name: 'any_name',
+    email: 'any_email@email.com',
+    password: 'any_password'
+  })
+  const { id } = await Account.findOne({ where: { email: 'any_email@email.com' } })
+  const accessToken = sign({ id }, env.jwtSecret)
+  return accessToken
+}
 
 describe('SignUp Routes', () => {
   beforeEach(async () => {
@@ -56,23 +69,19 @@ describe('SignUp Routes', () => {
   })
   describe('/user', () => {
     it('should delete an account on success ', async () => {
-      await Account.create({ name, email, password })
-      const { id } = await Account.findOne({ where: { email } })
+      const accessToken = await makeAccessToken()
       await request(app)
         .delete('/user')
-        .send({ id })
+        .set({ authorization: `Bearer ${accessToken}` })
         .expect(204)
     })
 
-    it('should return 400 if no have account with id provided ', async () => {
-      await Account.create({ name, email, password })
-      const { id } = await Account.findOne({ where: { email } })
-      await Account.destroy({ where: { id } })
+    it('should return 403 if accessToken is invalid ', async () => {
       const { status, body: { error } } = await request(app)
         .delete('/user')
-        .send({ id })
-      expect(status).toBe(400)
-      expect(error).toEqual(new NonExistentFieldError('id').message)
+        .set({ authorization: 'Bearer any_token' })
+      expect(status).toBe(403)
+      expect(error).toEqual(new AccessDeniedError().message)
     })
   })
 })
