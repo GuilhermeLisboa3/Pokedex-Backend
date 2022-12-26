@@ -1,5 +1,5 @@
 import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
-import { badRequest, forbidden, serverError } from '../helpers'
+import { badRequest, forbidden, ok, serverError } from '../helpers'
 import { AddPokemon } from '@/domain/usecases'
 import { PokemonInUseError } from '@/presentation/errors'
 
@@ -27,7 +27,7 @@ export class AddPokemonController implements Controller {
       if (!isValid) {
         return forbidden(new PokemonInUseError())
       }
-      return null
+      return ok(isValid)
     } catch (error) {
       return serverError(error)
     }
