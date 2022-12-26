@@ -4,7 +4,9 @@ import { DeleteAccountController } from '@/presentation/controllers'
 import { badRequest, serverError, noContent } from '@/presentation/helpers'
 import { NonExistentFieldError } from '@/presentation/errors'
 
-const { id } = accountParams
+const makeRequest = {
+  accountId: accountParams.id
+}
 
 type SutTypes = {
   sut: DeleteAccountController
@@ -23,27 +25,27 @@ const makeSut = (): SutTypes => {
 describe('deleteAccount Controller', () => {
   it('should call delete with correct id', async () => {
     const { sut, deleteByIdSpy } = makeSut()
-    await sut.handle({ id })
-    expect(deleteByIdSpy.id).toBe(id)
+    await sut.handle(makeRequest)
+    expect(deleteByIdSpy.id).toBe(makeRequest.accountId)
   })
 
   it('should return badRequest if delete returns null', async () => {
     const { sut, deleteByIdSpy } = makeSut()
     deleteByIdSpy.result = null
-    const error = await sut.handle({ id })
-    expect(error).toEqual(badRequest(new NonExistentFieldError('id')))
+    const error = await sut.handle(makeRequest)
+    expect(error).toEqual(badRequest(new NonExistentFieldError('accountId')))
   })
 
   it('should return 500 if delete returns throws', async () => {
     const { sut, deleteByIdSpy } = makeSut()
     jest.spyOn(deleteByIdSpy, 'delete').mockImplementationOnce(() => { throw new Error() })
-    const error = await sut.handle({ id })
+    const error = await sut.handle(makeRequest)
     expect(error).toEqual(serverError(new Error()))
   })
 
   it('should return 204 on success', async () => {
     const { sut } = makeSut()
-    const httpReposnse = await sut.handle({ id })
+    const httpReposnse = await sut.handle(makeRequest)
     expect(httpReposnse).toEqual(noContent())
   })
 })
