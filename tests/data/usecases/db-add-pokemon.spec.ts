@@ -62,4 +62,11 @@ describe('DbAddPokemon', () => {
     const account = await sut.add(makeRequest, accountId)
     expect(account).toBeFalsy()
   })
+
+  it('should throw if AddPokemonRepository returns throws', async () => {
+    const { sut, addPokemonRepositorySpy } = makeSut()
+    jest.spyOn(addPokemonRepositorySpy, 'add').mockImplementationOnce(() => { throw new Error() })
+    const promise = sut.add(makeRequest, accountId)
+    await expect(promise).rejects.toThrow()
+  })
 })
