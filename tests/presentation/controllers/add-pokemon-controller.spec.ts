@@ -4,13 +4,14 @@ import { AddPokemonController } from '@/presentation/controllers'
 import { badRequest, forbidden, serverError, ok } from '@/presentation/helpers'
 import { PokemonInUseError } from '@/presentation/errors'
 
+const { accountId, namePokemon, photoPokemon, idPokemon, types, urlSpecies } = pokemonParams
 const makeRequest = {
-  namePokemon: pokemonParams.namePokemon,
-  photoPokemon: pokemonParams.photoPokemon,
-  idPokemon: pokemonParams.idPokemon,
-  types: pokemonParams.types,
-  urlSpecies: pokemonParams.urlSpecies,
-  accountId: pokemonParams.accountId
+  namePokemon,
+  photoPokemon,
+  idPokemon,
+  types,
+  urlSpecies,
+  accountId
 }
 
 type SutTypes = {
@@ -47,7 +48,14 @@ describe('AddPokemon Controller', () => {
   it('should call AddPokemon with correct value ', async () => {
     const { sut, addPokemonSpy } = makeSut()
     await sut.handle(makeRequest)
-    expect(addPokemonSpy.addPokemonParams).toEqual(makeRequest)
+    expect(addPokemonSpy.addPokemonParams).toEqual({
+      namePokemon,
+      photoPokemon,
+      idPokemon,
+      types,
+      urlSpecies
+    })
+    expect(addPokemonSpy.accountId).toEqual(accountId)
   })
 
   it('should return 403 if AddPokemon returns null ', async () => {
