@@ -12,7 +12,7 @@ export class DeleteAccountController implements Controller {
     try {
       const deleteAccount = await this.deleteById.delete(request.accountId)
       if (!deleteAccount) {
-        return badRequest(new NonExistentFieldError('id'))
+        return badRequest(new NonExistentFieldError('accountId'))
       }
       return noContent()
     } catch (error) {
