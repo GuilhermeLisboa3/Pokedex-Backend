@@ -55,4 +55,11 @@ describe('DbAddPokemon', () => {
     await sut.add(makeRequest, accountId)
     expect(addPokemonRepositorySpy.addPokemonParams).toEqual({ ...makeRequest, accountId })
   })
+
+  it('should return false if AddPokemonRepository returns false', async () => {
+    const { sut, addPokemonRepositorySpy } = makeSut()
+    addPokemonRepositorySpy.result = false
+    const account = await sut.add(makeRequest, accountId)
+    expect(account).toBeFalsy()
+  })
 })
