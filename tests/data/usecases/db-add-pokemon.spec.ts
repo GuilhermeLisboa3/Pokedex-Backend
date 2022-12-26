@@ -32,4 +32,11 @@ describe('DbAddPokemon', () => {
     expect(checkPokemonRepositorySpy.accountId).toBe(accountId)
     expect(checkPokemonRepositorySpy.namePokemon).toBe(namePokemon)
   })
+
+  it('should return false if CheckPokemonRepository return true ', async () => {
+    const { sut, checkPokemonRepositorySpy } = makeSut()
+    checkPokemonRepositorySpy.result = true
+    const httpResponse = await sut.add(makeRequest, accountId)
+    expect(httpResponse).toBeFalsy()
+  })
 })
