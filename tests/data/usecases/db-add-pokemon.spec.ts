@@ -1,5 +1,5 @@
 import { pokemonParams } from '@/tests/mocks'
-import { CheckPokemonRepositorySpy } from '@/tests/data/mocks'
+import { CheckPokemonRepositorySpy, AddPokemonRepositorySpy } from '@/tests/data/mocks'
 import { DbAddPokemon } from '@/data/usecase'
 
 const { accountId, namePokemon } = pokemonParams
@@ -14,14 +14,17 @@ const makeRequest = {
 type SutTypes = {
   sut: DbAddPokemon
   checkPokemonRepositorySpy: CheckPokemonRepositorySpy
+  addPokemonRepositorySpy: AddPokemonRepositorySpy
 }
 
 const makeSut = (): SutTypes => {
   const checkPokemonRepositorySpy = new CheckPokemonRepositorySpy()
-  const sut = new DbAddPokemon(checkPokemonRepositorySpy)
+  const addPokemonRepositorySpy = new AddPokemonRepositorySpy()
+  const sut = new DbAddPokemon(checkPokemonRepositorySpy, addPokemonRepositorySpy)
   return {
     sut,
-    checkPokemonRepositorySpy
+    checkPokemonRepositorySpy,
+    addPokemonRepositorySpy
   }
 }
 
@@ -45,5 +48,11 @@ describe('DbAddPokemon', () => {
     jest.spyOn(checkPokemonRepositorySpy, 'checkPokemon').mockImplementationOnce(() => { throw new Error() })
     const promise = sut.add(makeRequest, accountId)
     await expect(promise).rejects.toThrow()
+  })
+
+  it('should call AddPokemonRepository with correct values ', async () => {
+    const { sut, addPokemonRepositorySpy } = makeSut()
+    await sut.add(makeRequest, accountId)
+    expect(addPokemonRepositorySpy.addPokemonParams).toEqual({ ...makeRequest, accountId })
   })
 })
