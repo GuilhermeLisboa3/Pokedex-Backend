@@ -1,5 +1,5 @@
 import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
-import { badRequest, forbidden } from '../helpers'
+import { badRequest, forbidden, serverError } from '../helpers'
 import { AddPokemon } from '@/domain/usecases'
 import { PokemonInUseError } from '@/presentation/errors'
 
@@ -10,23 +10,27 @@ export class AddPokemonController implements Controller {
   ) {}
 
   async handle (request: AddPokemonController.Request): Promise<HttpResponse> {
-    const error = await this.validation.validate(request)
-    if (error) {
-      return badRequest(error)
+    try {
+      const error = await this.validation.validate(request)
+      if (error) {
+        return badRequest(error)
+      }
+      const { accountId, idPokemon, namePokemon, photoPokemon, types, urlSpecies } = request
+      const isValid = await this.addPokemon.add({
+        accountId,
+        idPokemon,
+        namePokemon,
+        photoPokemon,
+        types,
+        urlSpecies
+      })
+      if (!isValid) {
+        return forbidden(new PokemonInUseError())
+      }
+      return null
+    } catch (error) {
+      return serverError(error)
     }
-    const { accountId, idPokemon, namePokemon, photoPokemon, types, urlSpecies } = request
-    const isValid = await this.addPokemon.add({
-      accountId,
-      idPokemon,
-      namePokemon,
-      photoPokemon,
-      types,
-      urlSpecies
-    })
-    if (!isValid) {
-      return forbidden(new PokemonInUseError())
-    }
-    return null
   }
 }
 
