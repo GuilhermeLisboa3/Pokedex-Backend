@@ -1,9 +1,11 @@
 import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
 import { badRequest } from '../helpers'
+import { AddPokemon } from '@/domain/usecases'
 
 export class AddPokemonController implements Controller {
   constructor (
-    private readonly validation: Validation
+    private readonly validation: Validation,
+    private readonly addPokemon: AddPokemon
   ) {}
 
   async handle (request: AddPokemonController.Request): Promise<HttpResponse> {
@@ -11,6 +13,15 @@ export class AddPokemonController implements Controller {
     if (error) {
       return badRequest(error)
     }
+    const { accountId, idPokemon, namePokemon, photoPokemon, types, urlSpecies } = request
+    await this.addPokemon.add({
+      accountId,
+      idPokemon,
+      namePokemon,
+      photoPokemon,
+      types,
+      urlSpecies
+    })
     return null
   }
 }
@@ -22,6 +33,6 @@ export namespace AddPokemonController {
     idPokemon: number
     types: string[]
     urlSpecies: string
-    IdUser: number
+    accountId: number
   }
 }
