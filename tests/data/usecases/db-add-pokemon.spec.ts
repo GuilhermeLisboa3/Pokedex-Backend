@@ -39,8 +39,8 @@ describe('DbAddPokemon', () => {
   it('should return false if CheckPokemonRepository return true ', async () => {
     const { sut, checkPokemonRepositorySpy } = makeSut()
     checkPokemonRepositorySpy.result = true
-    const httpResponse = await sut.add(makeRequest, accountId)
-    expect(httpResponse).toBeFalsy()
+    const isValid = await sut.add(makeRequest, accountId)
+    expect(isValid).toBeFalsy()
   })
 
   it('should throw if CheckPokemonRepository returns throws', async () => {
@@ -59,8 +59,8 @@ describe('DbAddPokemon', () => {
   it('should return false if AddPokemonRepository returns false', async () => {
     const { sut, addPokemonRepositorySpy } = makeSut()
     addPokemonRepositorySpy.result = false
-    const account = await sut.add(makeRequest, accountId)
-    expect(account).toBeFalsy()
+    const isValid = await sut.add(makeRequest, accountId)
+    expect(isValid).toBeFalsy()
   })
 
   it('should throw if AddPokemonRepository returns throws', async () => {
@@ -68,5 +68,11 @@ describe('DbAddPokemon', () => {
     jest.spyOn(addPokemonRepositorySpy, 'add').mockImplementationOnce(() => { throw new Error() })
     const promise = sut.add(makeRequest, accountId)
     await expect(promise).rejects.toThrow()
+  })
+
+  it('should return true if on success', async () => {
+    const { sut } = makeSut()
+    const isValid = await sut.add(makeRequest, accountId)
+    expect(isValid).toBeTruthy()
   })
 })
