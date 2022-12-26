@@ -9,9 +9,10 @@ export class DbAddPokemon implements AddPokemon {
 
   async add (pokemon: AddPokemon.Params, accountId: string): Promise<boolean> {
     const exists = await this.checkPokemonRepository.checkPokemon(pokemon.namePokemon, accountId)
+    let isValid = false
     if (!exists) {
-      await this.addPokemonRepository.add({ ...pokemon, accountId })
+      isValid = await this.addPokemonRepository.add({ ...pokemon, accountId })
     }
-    return false
+    return isValid
   }
 }
