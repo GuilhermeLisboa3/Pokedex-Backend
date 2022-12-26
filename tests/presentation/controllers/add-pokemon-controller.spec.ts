@@ -1,7 +1,7 @@
 import { pokemonParams } from '@/tests/mocks'
 import { ValidationSpy, AddPokemonSpy } from '@/tests/presentation/mocks'
 import { AddPokemonController } from '@/presentation/controllers'
-import { badRequest, forbidden } from '@/presentation/helpers'
+import { badRequest, forbidden, serverError } from '@/presentation/helpers'
 import { PokemonInUseError } from '@/presentation/errors'
 
 const makeRequest = {
@@ -55,5 +55,12 @@ describe('AddPokemon Controller', () => {
     addPokemonSpy.result = false
     const httpResponse = await sut.handle(makeRequest)
     expect(httpResponse).toEqual(forbidden(new PokemonInUseError()))
+  })
+
+  it('should return 500 if AddPokemon returns throws ', async () => {
+    const { sut, addPokemonSpy } = makeSut()
+    jest.spyOn(addPokemonSpy, 'add').mockImplementationOnce(() => { throw new Error() })
+    const httpResponse = await sut.handle(makeRequest)
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
