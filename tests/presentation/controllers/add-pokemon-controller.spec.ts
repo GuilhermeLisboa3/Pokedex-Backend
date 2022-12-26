@@ -1,7 +1,8 @@
 import { pokemonParams } from '@/tests/mocks'
 import { ValidationSpy, AddPokemonSpy } from '@/tests/presentation/mocks'
 import { AddPokemonController } from '@/presentation/controllers'
-import { badRequest } from '@/presentation/helpers'
+import { badRequest, forbidden } from '@/presentation/helpers'
+import { PokemonInUseError } from '@/presentation/errors'
 
 const makeRequest = {
   namePokemon: pokemonParams.namePokemon,
@@ -47,5 +48,12 @@ describe('AddPokemon Controller', () => {
     const { sut, addPokemonSpy } = makeSut()
     await sut.handle(makeRequest)
     expect(addPokemonSpy.addPokemonParams).toEqual(makeRequest)
+  })
+
+  it('should return 403 if AddPokemon returns null ', async () => {
+    const { sut, addPokemonSpy } = makeSut()
+    addPokemonSpy.result = false
+    const httpResponse = await sut.handle(makeRequest)
+    expect(httpResponse).toEqual(forbidden(new PokemonInUseError()))
   })
 })
