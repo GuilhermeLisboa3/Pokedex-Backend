@@ -7,5 +7,5 @@ export const pokemonParams = {
   types: [faker.database.type()],
   photoPokemon: faker.internet.url(),
   urlSpecies: faker.internet.url(),
-  IdUser: Number(faker.datatype.uuid())
+  accountId: Number(faker.datatype.uuid())
 }

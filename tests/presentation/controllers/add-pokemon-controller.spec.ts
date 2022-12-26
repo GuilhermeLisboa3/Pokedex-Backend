@@ -1,5 +1,5 @@
 import { pokemonParams } from '@/tests/mocks'
-import { ValidationSpy } from '@/tests/presentation/mocks'
+import { ValidationSpy, AddPokemonSpy } from '@/tests/presentation/mocks'
 import { AddPokemonController } from '@/presentation/controllers'
 import { badRequest } from '@/presentation/helpers'
 
@@ -9,20 +9,23 @@ const makeRequest = {
   idPokemon: pokemonParams.idPokemon,
   types: pokemonParams.types,
   urlSpecies: pokemonParams.urlSpecies,
-  IdUser: pokemonParams.IdUser
+  accountId: pokemonParams.accountId
 }
 
 type SutTypes = {
   sut: AddPokemonController
   validationSpy: ValidationSpy
+  addPokemonSpy: AddPokemonSpy
 }
 
 const makeSut = (): SutTypes => {
   const validationSpy = new ValidationSpy()
-  const sut = new AddPokemonController(validationSpy)
+  const addPokemonSpy = new AddPokemonSpy()
+  const sut = new AddPokemonController(validationSpy, addPokemonSpy)
   return {
     sut,
-    validationSpy
+    validationSpy,
+    addPokemonSpy
   }
 }
 
@@ -38,5 +41,11 @@ describe('AddPokemon Controller', () => {
     validationSpy.error = new Error()
     const httpResponse = await sut.handle(makeRequest)
     expect(httpResponse).toEqual(badRequest(validationSpy.error))
+  })
+
+  it('should call AddPokemon with correct value ', async () => {
+    const { sut, addPokemonSpy } = makeSut()
+    await sut.handle(makeRequest)
+    expect(addPokemonSpy.addPokemonParams).toEqual(makeRequest)
   })
 })
