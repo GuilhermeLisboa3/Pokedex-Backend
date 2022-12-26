@@ -1,6 +1,7 @@
 import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
-import { badRequest } from '../helpers'
+import { badRequest, forbidden } from '../helpers'
 import { AddPokemon } from '@/domain/usecases'
+import { PokemonInUseError } from '@/presentation/errors'
 
 export class AddPokemonController implements Controller {
   constructor (
@@ -14,7 +15,7 @@ export class AddPokemonController implements Controller {
       return badRequest(error)
     }
     const { accountId, idPokemon, namePokemon, photoPokemon, types, urlSpecies } = request
-    await this.addPokemon.add({
+    const isValid = await this.addPokemon.add({
       accountId,
       idPokemon,
       namePokemon,
@@ -22,6 +23,9 @@ export class AddPokemonController implements Controller {
       types,
       urlSpecies
     })
+    if (!isValid) {
+      return forbidden(new PokemonInUseError())
+    }
     return null
   }
 }
