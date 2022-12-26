@@ -9,6 +9,6 @@ export class DbAddPokemon implements AddPokemon {
   async add (pokemon: AddPokemon.Params, accountId: string): Promise<boolean> {
     const { namePokemon } = pokemon
     await this.checkPokemonRepository.checkPokemon(namePokemon, accountId)
-    return null
+    return false
   }
 }
