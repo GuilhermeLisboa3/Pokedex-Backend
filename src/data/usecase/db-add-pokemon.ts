@@ -7,7 +7,7 @@ export class DbAddPokemon implements AddPokemon {
     private readonly addPokemonRepository: AddPokemonRepository
   ) {}
 
-  async add (pokemon: AddPokemon.Params, accountId: string): Promise<boolean> {
+  async add (pokemon: AddPokemon.Params, accountId: number): Promise<boolean> {
     const exists = await this.checkPokemonRepository.checkPokemon(pokemon.namePokemon, accountId)
     let isValid = false
     if (!exists) {

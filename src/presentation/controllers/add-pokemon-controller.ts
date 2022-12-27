@@ -41,6 +41,6 @@ export namespace AddPokemonController {
     idPokemon: string
     types: string[]
     urlSpecies: string
-    accountId: string
+    accountId: number
   }
 }

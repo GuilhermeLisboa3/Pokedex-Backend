@@ -1,3 +1,3 @@
 export interface CheckPokemonRepository {
-  checkPokemon: (namePokemon: string, accountId: string) => Promise<boolean>
+  checkPokemon: (namePokemon: string, accountId: number) => Promise<boolean>
 }

@@ -9,7 +9,7 @@ export namespace AddPokemonRepository {
     idPokemon: string
     types: string[]
     urlSpecies: string
-    accountId: string
+    accountId: number
   }
   export type Result = boolean
 }

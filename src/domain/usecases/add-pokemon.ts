@@ -1,5 +1,5 @@
 export interface AddPokemon {
-  add: (pokemon: AddPokemon.Params, accountId: string) => Promise<boolean>
+  add: (pokemon: AddPokemon.Params, accountId: number) => Promise<boolean>
 }
 
 export namespace AddPokemon {
