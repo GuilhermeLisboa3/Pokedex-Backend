@@ -24,7 +24,7 @@ describe('Account Repository', () => {
   afterAll(async () => {
     await sequelize.close()
   })
-  describe('checkPokemon', () => {
+  describe('checkPokemon()', () => {
     it('should return true if pokemon exist', async () => {
       await Account.create({ name, email, password })
       await Pokemon.create(makePokemon)
@@ -38,6 +38,15 @@ describe('Account Repository', () => {
       const sut = makeSut()
       const account = await sut.checkPokemon(namePokemon, accountId)
       expect(account).toBe(false)
+    })
+  })
+
+  describe('add()', () => {
+    it('should return true on success', async () => {
+      await Account.create({ name, email, password })
+      const sut = makeSut()
+      const pokemon = await sut.add(makePokemon)
+      expect(pokemon).toBe(true)
     })
   })
 })
