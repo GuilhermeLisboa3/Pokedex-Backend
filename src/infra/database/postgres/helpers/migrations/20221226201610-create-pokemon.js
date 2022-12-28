@@ -29,7 +29,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DataTypes.STRING
       },
-      account_id: {
+      user_id: {
         allowNull: false,
         type: Sequelize.DataTypes.INTEGER,
         references: { model: 'users', key: 'id' },
@@ -48,6 +48,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('users')
+    await queryInterface.dropTable('pokemons')
   }
 }

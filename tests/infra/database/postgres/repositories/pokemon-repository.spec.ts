@@ -27,7 +27,7 @@ describe('Account Repository', () => {
   describe('checkPokemon()', () => {
     it('should return true if pokemon exist', async () => {
       await Account.create({ name, email, password })
-      await Pokemon.create(makePokemon)
+      await Pokemon.create({ ...makePokemon, userId: accountId })
       const sut = makeSut()
       const account = await sut.checkPokemon(namePokemon, accountId)
       expect(account).toBe(true)

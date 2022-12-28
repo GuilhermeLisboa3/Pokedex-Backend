@@ -7,7 +7,7 @@ type PokemonAttributes = {
   idPokemon: string
   types: string[]
   urlSpecies: string
-  accountId: number
+  userId: number
 }
 
 export interface CreatePokemonAttributes extends Optional<PokemonAttributes, 'id'> {}
@@ -42,7 +42,7 @@ export default (sequelize: Sequelize) => {
       allowNull: false,
       type: DataTypes.STRING
     },
-    accountId: {
+    userId: {
       allowNull: false,
       type: DataTypes.INTEGER,
       references: { model: 'users', key: 'id' },

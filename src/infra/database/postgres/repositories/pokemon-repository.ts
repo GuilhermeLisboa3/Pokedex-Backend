@@ -6,14 +6,14 @@ export class PokemonRepository implements CheckPokemonRepository, AddPokemonRepo
     const pokemon = await Pokemon.findOne({
       where: {
         namePokemon,
-        accountId
+        userId: accountId
       }
     })
     return pokemon != null
   }
 
   async add (pokemonParams: AddPokemonRepository.Params): Promise<boolean> {
-    const pokemon = await Pokemon.create(pokemonParams)
+    const pokemon = await Pokemon.create({ ...pokemonParams, userId: pokemonParams.accountId })
     return pokemon != null
   }
 }
