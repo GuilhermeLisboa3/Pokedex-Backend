@@ -1,5 +1,5 @@
 import { makePokemonValidation } from '@/main/factories/controllers'
-import { AddPokemonController } from '@/presentation/controllers/add-pokemon-controller'
+import { AddPokemonController } from '@/presentation/controllers/pokemon/add-pokemon-controller'
 import { Controller } from '@/presentation/protocols'
 import { DbAddPokemon } from '@/data/usecase'
 import { PokemonRepository } from '@/infra/database/postgres/repositories'

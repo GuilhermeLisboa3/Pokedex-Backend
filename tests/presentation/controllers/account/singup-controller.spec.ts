@@ -1,6 +1,6 @@
 import { SingUpController } from '@/presentation/controllers'
 import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers'
-import { ValidationSpy, AddAccountSpy } from '../mocks'
+import { ValidationSpy, AddAccountSpy } from '../../mocks'
 import { accountParams } from '@/tests/mocks'
 import { EmailInUseError } from '@/presentation/errors'
 

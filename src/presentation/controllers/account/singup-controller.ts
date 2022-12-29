@@ -1,6 +1,6 @@
-import { badRequest, forbidden, ok, serverError } from '../helpers'
-import { Validation, HttpResponse, Controller } from '../protocols'
-import { EmailInUseError } from '../errors'
+import { badRequest, forbidden, ok, serverError } from '../../helpers'
+import { Validation, HttpResponse, Controller } from '../../protocols'
+import { EmailInUseError } from '../../errors'
 import { AddAccount } from '@/domain/usecases'
 
 export class SingUpController implements Controller {

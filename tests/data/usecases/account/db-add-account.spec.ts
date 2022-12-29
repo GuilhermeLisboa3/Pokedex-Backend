@@ -1,6 +1,6 @@
 import { accountParams } from '@/tests/mocks'
 import { DbAddAccount } from '@/data/usecase'
-import { CheckAccountByEmailRepositorySpy, HasherSpy, AddAccountRepositorySpy } from '../mocks'
+import { CheckAccountByEmailRepositorySpy, HasherSpy, AddAccountRepositorySpy } from '../../mocks'
 
 const { email, name, password } = accountParams
 const makeAccountParams = { email, name, password }

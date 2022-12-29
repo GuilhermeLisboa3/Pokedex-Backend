@@ -1,6 +1,6 @@
 import { Controller, HttpResponse } from '@/presentation/protocols'
 import { DeleteById } from '@/domain/usecases'
-import { badRequest, serverError, noContent } from '../helpers'
+import { badRequest, serverError, noContent } from '../../helpers'
 import { NonExistentFieldError } from '@/presentation/errors'
 
 export class DeleteAccountController implements Controller {

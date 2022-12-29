@@ -1,5 +1,2 @@
-export * from './db-add-account'
-export * from './db-authentication'
-export * from './db-delete-account'
-export * from './db-authentication-token'
-export * from './db-add-pokemon'
+export * from './account'
+export * from './pokemon'

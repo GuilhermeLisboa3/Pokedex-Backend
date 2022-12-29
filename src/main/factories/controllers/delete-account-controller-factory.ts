@@ -1,6 +1,6 @@
 import { Controller } from '@/presentation/protocols'
 import { DeleteAccountController } from '@/presentation/controllers'
-import { DbDeleteAccount } from '@/data/usecase/db-delete-account'
+import { DbDeleteAccount } from '@/data/usecase/account/db-delete-account'
 import { AccountRepository } from '@/infra/database/postgres/repositories'
 
 export const makeDeleteAccountController = (): Controller => {

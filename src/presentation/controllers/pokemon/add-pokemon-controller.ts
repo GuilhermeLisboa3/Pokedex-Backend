@@ -1,5 +1,5 @@
 import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
-import { badRequest, forbidden, ok, serverError } from '../helpers'
+import { badRequest, forbidden, ok, serverError } from '../../helpers'
 import { AddPokemon } from '@/domain/usecases'
 import { PokemonInUseError } from '@/presentation/errors'
 
