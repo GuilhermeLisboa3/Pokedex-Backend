@@ -1,6 +1,7 @@
 import { pokemonParams } from '@/tests/mocks'
 import { ListPokemonsSpy } from '@/tests/presentation/mocks'
 import { ListPokemonsController } from '@/presentation/controllers'
+import { ok } from '@/presentation/helpers'
 
 const { accountId } = pokemonParams
 
@@ -23,5 +24,11 @@ describe('ListPokemons Controller', () => {
     const { sut, listPokemonsSpy } = makeSut()
     await sut.handle({ accountId })
     expect(listPokemonsSpy.accountId).toEqual(accountId)
+  })
+
+  it('should return list pokemons on success', async () => {
+    const { sut, listPokemonsSpy } = makeSut()
+    const pokemons = await sut.handle({ accountId })
+    expect(pokemons).toEqual(ok(listPokemonsSpy.result))
   })
 })
