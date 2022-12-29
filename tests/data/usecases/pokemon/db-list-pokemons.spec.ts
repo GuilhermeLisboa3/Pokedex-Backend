@@ -24,4 +24,10 @@ describe('DbListPokemons', () => {
     await sut.list(accountId)
     expect(listPokemonsRepositorySpy.accountId).toBe(accountId)
   })
+
+  it('should return list pokemons on success', async () => {
+    const { sut, listPokemonsRepositorySpy } = makeSut()
+    const pokemons = await sut.list(accountId)
+    expect(pokemons).toEqual(listPokemonsRepositorySpy.result)
+  })
 })
