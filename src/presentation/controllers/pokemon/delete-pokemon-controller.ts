@@ -1,5 +1,7 @@
 import { Controller, HttpResponse } from '@/presentation/protocols'
 import { DeletePokemon } from '@/domain/usecases'
+import { badRequest } from '@/presentation/helpers'
+import { NonExistentFieldError } from '@/presentation/errors'
 
 export class DeletePokemonController implements Controller {
   constructor (
@@ -7,7 +9,10 @@ export class DeletePokemonController implements Controller {
   ) {}
 
   async handle (request: any): Promise<HttpResponse> {
-    await this.deletePokemon.delete(request.id)
+    const deletePokemon = await this.deletePokemon.delete(request.id)
+    if (!deletePokemon) {
+      return badRequest(new NonExistentFieldError('idPokemon'))
+    }
     return null
   }
 }
