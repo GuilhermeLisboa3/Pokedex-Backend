@@ -7,7 +7,7 @@ export class DbListPokemons implements ListPokemons {
   ) {}
 
   async list (accountId: number): Promise<ListPokemons.Result> {
-    await this.listPokemonsRepository.list(accountId)
-    return null
+    const pokemons = await this.listPokemonsRepository.list(accountId)
+    return pokemons
   }
 }
