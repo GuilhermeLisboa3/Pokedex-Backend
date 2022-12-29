@@ -1,7 +1,7 @@
 import { pokemonParams } from '@/tests/mocks'
 import { ListPokemonsSpy } from '@/tests/presentation/mocks'
 import { ListPokemonsController } from '@/presentation/controllers'
-import { ok } from '@/presentation/helpers'
+import { ok, serverError } from '@/presentation/helpers'
 
 const { accountId } = pokemonParams
 
@@ -30,5 +30,12 @@ describe('ListPokemons Controller', () => {
     const { sut, listPokemonsSpy } = makeSut()
     const pokemons = await sut.handle({ accountId })
     expect(pokemons).toEqual(ok(listPokemonsSpy.result))
+  })
+
+  it('should return 500 if ListPokemons returns throws ', async () => {
+    const { sut, listPokemonsSpy } = makeSut()
+    jest.spyOn(listPokemonsSpy, 'list').mockImplementationOnce(() => { throw new Error() })
+    const httpResponse = await sut.handle({ accountId })
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
