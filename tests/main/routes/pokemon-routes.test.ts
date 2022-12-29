@@ -55,4 +55,12 @@ describe('SignUp Routes', () => {
         .expect(200)
     })
   })
+
+  describe('/pokemons', () => {
+    it('should return 403 if accessToken is not supplied', async () => {
+      await request(app)
+        .get('/pokemons')
+        .expect(403)
+    })
+  })
 })
