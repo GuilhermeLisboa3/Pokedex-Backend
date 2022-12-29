@@ -1,7 +1,7 @@
 import { pokemonParams } from '@/tests/mocks'
 import { DeletePokemonSpy } from '@/tests/presentation/mocks'
 import { DeletePokemonController } from '@/presentation/controllers'
-import { badRequest, serverError } from '@/presentation/helpers'
+import { badRequest, ok, serverError } from '@/presentation/helpers'
 import { NonExistentFieldError } from '@/presentation/errors'
 
 const { idPokemon } = pokemonParams
@@ -39,5 +39,11 @@ describe('deletePokemon Controller', () => {
     jest.spyOn(deletePokemonSpy, 'delete').mockImplementationOnce(() => { throw new Error() })
     const error = await sut.handle({ id: idPokemon })
     expect(error).toEqual(serverError(new Error()))
+  })
+
+  it('should return 200 on success', async () => {
+    const { sut, deletePokemonSpy } = makeSut()
+    const deletePokemon = await sut.handle({ id: idPokemon })
+    expect(deletePokemon).toEqual(ok(deletePokemonSpy.result))
   })
 })
