@@ -30,4 +30,11 @@ describe('DbListPokemons', () => {
     const pokemons = await sut.list(accountId)
     expect(pokemons).toEqual(listPokemonsRepositorySpy.result)
   })
+
+  it('should throw if ListPokemonsRepository returns throws', async () => {
+    const { sut, listPokemonsRepositorySpy } = makeSut()
+    jest.spyOn(listPokemonsRepositorySpy, 'list').mockImplementationOnce(() => { throw new Error() })
+    const promise = sut.list(accountId)
+    await expect(promise).rejects.toThrow()
+  })
 })
