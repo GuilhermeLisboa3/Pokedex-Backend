@@ -1,6 +1,8 @@
 import { pokemonParams } from '@/tests/mocks'
 import { DeletePokemonSpy } from '@/tests/presentation/mocks'
 import { DeletePokemonController } from '@/presentation/controllers'
+import { badRequest } from '@/presentation/helpers'
+import { NonExistentFieldError } from '@/presentation/errors'
 
 const { idPokemon } = pokemonParams
 
@@ -23,5 +25,12 @@ describe('deletePokemon Controller', () => {
     const { sut, deletePokemonSpy } = makeSut()
     await sut.handle({ id: idPokemon })
     expect(deletePokemonSpy.idPokemon).toBe(idPokemon)
+  })
+
+  it('should return badRequest if DeletePokemon returns null', async () => {
+    const { sut, deletePokemonSpy } = makeSut()
+    deletePokemonSpy.result = null
+    const error = await sut.handle({ id: idPokemon })
+    expect(error).toEqual(badRequest(new NonExistentFieldError('idPokemon')))
   })
 })
