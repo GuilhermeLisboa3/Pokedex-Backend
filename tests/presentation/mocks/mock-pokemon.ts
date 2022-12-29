@@ -1,4 +1,4 @@
-import { AddPokemon, ListPokemons } from '@/domain/usecases'
+import { AddPokemon, ListPokemons, DeletePokemon } from '@/domain/usecases'
 import { pokemonParams } from '@/tests/mocks/pokemon-params'
 
 const { id, idPokemon, namePokemon, photoPokemon, types, urlSpecies } = pokemonParams
@@ -27,6 +27,16 @@ export class ListPokemonsSpy implements ListPokemons {
 
   async list (accountId: number): Promise<ListPokemons.Result> {
     this.accountId = accountId
+    return this.result
+  }
+}
+
+export class DeletePokemonSpy implements DeletePokemon {
+  idPokemon: string
+  result = true
+
+  async delete (idPokemon: string): Promise<boolean> {
+    this.idPokemon = idPokemon
     return this.result
   }
 }
