@@ -62,5 +62,14 @@ describe('SignUp Routes', () => {
         .get('/pokemons')
         .expect(403)
     })
+
+    it('should return 200 on success', async () => {
+      const accessToken = await makeAccessToken()
+      const { body } = await request(app)
+        .get('/pokemons')
+        .set({ authorization: `Bearer ${accessToken}` })
+        .expect(200)
+      expect(body).toEqual([])
+    })
   })
 })
