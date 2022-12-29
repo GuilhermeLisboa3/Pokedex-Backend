@@ -2,15 +2,14 @@ import { sequelize, Pokemon, Account } from '@/infra/database/postgres/entities'
 import { PokemonRepository } from '@/infra/database/postgres/repositories'
 import { pokemonParams, accountParams } from '@/tests/mocks'
 
-const { accountId, namePokemon } = pokemonParams
+const { accountId, namePokemon, idPokemon, photoPokemon, types, urlSpecies } = pokemonParams
 const { email, name, password } = accountParams
 const makePokemon = {
-  accountId,
-  idPokemon: pokemonParams.idPokemon,
+  idPokemon,
   namePokemon,
-  photoPokemon: pokemonParams.photoPokemon,
-  types: pokemonParams.types,
-  urlSpecies: pokemonParams.urlSpecies
+  photoPokemon,
+  types,
+  urlSpecies
 }
 
 const makeSut = (): PokemonRepository => {
@@ -45,8 +44,22 @@ describe('Account Repository', () => {
     it('should return true on success', async () => {
       await Account.create({ name, email, password })
       const sut = makeSut()
-      const pokemon = await sut.add(makePokemon)
+      const pokemon = await sut.add({ ...makePokemon, accountId })
       expect(pokemon).toBe(true)
+    })
+  })
+
+  describe('list()', () => {
+    it('should return list pokemons on success', async () => {
+      await Account.create({ name, email, password })
+      await Pokemon.create({ ...makePokemon, userId: accountId })
+      const sut = makeSut()
+      const pokemon = await sut.list(accountId)
+      expect(pokemon[0].id).toBeTruthy()
+      expect(pokemon[0].idPokemon).toBe(idPokemon)
+      expect(pokemon[0].namePokemon).toBe(namePokemon)
+      expect(pokemon[0].photoPokemon).toBe(photoPokemon)
+      expect(pokemon[0].urlSpecies).toBe(urlSpecies)
     })
   })
 })
