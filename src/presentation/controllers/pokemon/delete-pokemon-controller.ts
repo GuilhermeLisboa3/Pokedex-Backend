@@ -1,6 +1,6 @@
 import { Controller, HttpResponse } from '@/presentation/protocols'
 import { DeletePokemon } from '@/domain/usecases'
-import { badRequest, serverError, ok } from '@/presentation/helpers'
+import { badRequest, serverError, noContent } from '@/presentation/helpers'
 import { NonExistentFieldError } from '@/presentation/errors'
 
 export class DeletePokemonController implements Controller {
@@ -15,7 +15,7 @@ export class DeletePokemonController implements Controller {
       if (!deletePokemon) {
         return badRequest(new NonExistentFieldError('idPokemon'))
       }
-      return ok(deletePokemon)
+      return noContent()
     } catch (error) {
       return serverError(error)
     }

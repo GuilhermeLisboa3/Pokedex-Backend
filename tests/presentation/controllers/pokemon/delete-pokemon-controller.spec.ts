@@ -1,7 +1,7 @@
 import { pokemonParams } from '@/tests/mocks'
 import { DeletePokemonSpy } from '@/tests/presentation/mocks'
 import { DeletePokemonController } from '@/presentation/controllers'
-import { badRequest, ok, serverError } from '@/presentation/helpers'
+import { badRequest, noContent, serverError } from '@/presentation/helpers'
 import { NonExistentFieldError } from '@/presentation/errors'
 
 const { idPokemon, accountId } = pokemonParams
@@ -43,8 +43,8 @@ describe('deletePokemon Controller', () => {
   })
 
   it('should return 200 on success', async () => {
-    const { sut, deletePokemonSpy } = makeSut()
+    const { sut } = makeSut()
     const deletePokemon = await sut.handle({ id: idPokemon, accountId })
-    expect(deletePokemon).toEqual(ok(deletePokemonSpy.result))
+    expect(deletePokemon).toEqual(noContent())
   })
 })
