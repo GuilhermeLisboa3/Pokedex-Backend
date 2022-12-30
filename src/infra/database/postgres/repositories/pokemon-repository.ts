@@ -29,7 +29,6 @@ export class PokemonRepository implements CheckPokemonRepository, AddPokemonRepo
       ],
       where: { userId: accountId }
     })
-    console.log(pokemons)
     return pokemons
   }
 
