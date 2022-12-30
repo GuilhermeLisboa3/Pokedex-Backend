@@ -71,5 +71,12 @@ describe('Account Repository', () => {
       const account = await sut.checkById(idPokemon, accountId)
       expect(account).toBe(true)
     })
+
+    it('should return false if pokemon not exist', async () => {
+      await Account.create({ name, email, password })
+      const sut = makeSut()
+      const account = await sut.checkById(idPokemon, accountId)
+      expect(account).toBe(false)
+    })
   })
 })
