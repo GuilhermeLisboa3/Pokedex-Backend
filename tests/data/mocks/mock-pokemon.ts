@@ -1,4 +1,4 @@
-import { CheckPokemonRepository, AddPokemonRepository, ListPokemonsRepository, CheckPokemonByIdRepository } from '@/data/protocols'
+import { CheckPokemonRepository, AddPokemonRepository, ListPokemonsRepository, CheckPokemonByIdRepository, DeletePokemonByIdRepository } from '@/data/protocols'
 import { pokemonParams } from '@/tests/mocks'
 
 const { id, namePokemon, idPokemon, photoPokemon, types, urlSpecies } = pokemonParams
@@ -46,5 +46,13 @@ export class CheckPokemonByIdRepositorySpy implements CheckPokemonByIdRepository
   async checkById (idPokemon: string): Promise<boolean> {
     this.idPokemon = idPokemon
     return this.result
+  }
+}
+
+export class DeletePokemonByIdRepositorySpy implements DeletePokemonByIdRepository {
+  idPokemon: string
+
+  async deleteById (idPokemon: string): Promise<void> {
+    this.idPokemon = idPokemon
   }
 }

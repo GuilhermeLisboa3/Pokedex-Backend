@@ -1,5 +1,5 @@
 import { pokemonParams } from '@/tests/mocks'
-import { CheckPokemonByIdRepositorySpy } from '@/tests/data/mocks'
+import { CheckPokemonByIdRepositorySpy, DeletePokemonByIdRepositorySpy } from '@/tests/data/mocks'
 import { DbDeletePokemon } from '@/data/usecase'
 
 const { idPokemon } = pokemonParams
@@ -7,15 +7,18 @@ const { idPokemon } = pokemonParams
 type SutTypes = {
   sut: DbDeletePokemon
   checkPokemonByIdRepositorySpy: CheckPokemonByIdRepositorySpy
+  deletePokemonByIdRepositorySpy: DeletePokemonByIdRepositorySpy
 }
 
 const makeSut = (): SutTypes => {
   const checkPokemonByIdRepositorySpy = new CheckPokemonByIdRepositorySpy()
-  const sut = new DbDeletePokemon(checkPokemonByIdRepositorySpy)
+  const deletePokemonByIdRepositorySpy = new DeletePokemonByIdRepositorySpy()
+  const sut = new DbDeletePokemon(checkPokemonByIdRepositorySpy, deletePokemonByIdRepositorySpy)
 
   return {
     sut,
-    checkPokemonByIdRepositorySpy
+    checkPokemonByIdRepositorySpy,
+    deletePokemonByIdRepositorySpy
   }
 }
 
@@ -38,5 +41,11 @@ describe('DbDeletePokemon', () => {
     jest.spyOn(checkPokemonByIdRepositorySpy, 'checkById').mockImplementationOnce(() => { throw new Error() })
     const promise = sut.delete(idPokemon)
     await expect(promise).rejects.toThrow()
+  })
+
+  it('should call DeletePokemonByIdRepository with correct id', async () => {
+    const { sut, deletePokemonByIdRepositorySpy } = makeSut()
+    await sut.delete(idPokemon)
+    expect(deletePokemonByIdRepositorySpy.idPokemon).toBe(idPokemon)
   })
 })
