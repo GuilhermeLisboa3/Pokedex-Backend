@@ -1,5 +1,5 @@
 import request from 'supertest'
-import { sequelize, Account } from '@/infra/database/postgres/entities'
+import { sequelize, Account, Pokemon } from '@/infra/database/postgres/entities'
 import { app } from '@/main/config/app'
 import { pokemonParams } from '@/tests/mocks'
 import { sign } from 'jsonwebtoken'
@@ -78,6 +78,22 @@ describe('SignUp Routes', () => {
       await request(app)
         .delete(`/pokemon/${'1'}`)
         .expect(403)
+    })
+
+    it('should return 204 if the pokemon is deleted', async () => {
+      const accessToken = await makeAccessToken()
+      await Pokemon.create({
+        idPokemon,
+        namePokemon,
+        photoPokemon,
+        types,
+        urlSpecies,
+        userId: 1
+      })
+      await request(app)
+        .delete(`/pokemon/${idPokemon}`)
+        .set({ authorization: `Bearer ${accessToken}` })
+        .expect(204)
     })
   })
 })

@@ -44,7 +44,7 @@ describe('Auth Middleware', () => {
   it('should return 200 if AuthenticationToken returns account', async () => {
     const { sut, authenticationTokenSpy } = makeSut()
     const httpResponse = await sut.handle({ authorization })
-    expect(httpResponse).toEqual(ok(authenticationTokenSpy.accountId))
+    expect(httpResponse).toEqual(ok({ accountId: authenticationTokenSpy.accountId.id }))
   })
 
   it('should throw if AuthenticationToken returns throws', async () => {
