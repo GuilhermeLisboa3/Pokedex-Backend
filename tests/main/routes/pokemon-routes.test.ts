@@ -72,4 +72,12 @@ describe('SignUp Routes', () => {
       expect(body).toEqual([])
     })
   })
+
+  describe('/pokemon/:id', () => {
+    it('should return 403 if accessToken is not supplied', async () => {
+      await request(app)
+        .delete(`/pokemon/${'1'}`)
+        .expect(403)
+    })
+  })
 })
