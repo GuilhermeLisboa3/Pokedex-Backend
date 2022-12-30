@@ -1,7 +1,7 @@
-import { CheckPokemonRepository, AddPokemonRepository, ListPokemonsRepository } from '@/data/protocols'
+import { CheckPokemonRepository, AddPokemonRepository, ListPokemonsRepository, CheckPokemonByIdRepository } from '@/data/protocols'
 import { Pokemon } from '@/infra/database/postgres/entities'
 
-export class PokemonRepository implements CheckPokemonRepository, AddPokemonRepository, ListPokemonsRepository {
+export class PokemonRepository implements CheckPokemonRepository, AddPokemonRepository, ListPokemonsRepository, CheckPokemonByIdRepository {
   async checkPokemon (namePokemon: string, accountId: number): Promise<boolean> {
     const pokemon = await Pokemon.findOne({
       where: {
@@ -31,5 +31,15 @@ export class PokemonRepository implements CheckPokemonRepository, AddPokemonRepo
     })
     console.log(pokemons)
     return pokemons
+  }
+
+  async checkById (idPokemon: string, accountId: number): Promise<boolean> {
+    const pokemon = await Pokemon.findOne({
+      where: {
+        idPokemon,
+        userId: accountId
+      }
+    })
+    return pokemon != null
   }
 }
