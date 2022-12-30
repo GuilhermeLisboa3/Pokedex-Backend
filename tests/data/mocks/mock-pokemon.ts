@@ -41,18 +41,22 @@ export class ListPokemonsRepositorySpy implements ListPokemonsRepository {
 
 export class CheckPokemonByIdRepositorySpy implements CheckPokemonByIdRepository {
   idPokemon: string
+  accountId: number
   result = true
 
-  async checkById (idPokemon: string): Promise<boolean> {
+  async checkById (idPokemon: string, accountId: number): Promise<boolean> {
     this.idPokemon = idPokemon
+    this.accountId = accountId
     return this.result
   }
 }
 
 export class DeletePokemonByIdRepositorySpy implements DeletePokemonByIdRepository {
   idPokemon: string
+  accountId: number
 
-  async deleteById (idPokemon: string): Promise<void> {
+  async deleteById (idPokemon: string, accountId: number): Promise<void> {
     this.idPokemon = idPokemon
+    this.accountId = accountId
   }
 }

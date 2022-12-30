@@ -1,4 +1,4 @@
 
 export interface DeletePokemon {
-  delete: (idPokemon: string) => Promise<boolean>
+  delete: (idPokemon: string, accountId: number) => Promise<boolean>
 }

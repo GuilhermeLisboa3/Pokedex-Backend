@@ -8,9 +8,10 @@ export class DeletePokemonController implements Controller {
     private readonly deletePokemon: DeletePokemon
   ) {}
 
-  async handle (request: any): Promise<HttpResponse> {
+  async handle (request: DeletePokemonController.Request): Promise<HttpResponse> {
     try {
-      const deletePokemon = await this.deletePokemon.delete(request.id)
+      const { id, accountId } = request
+      const deletePokemon = await this.deletePokemon.delete(id, accountId)
       if (!deletePokemon) {
         return badRequest(new NonExistentFieldError('idPokemon'))
       }
@@ -18,5 +19,11 @@ export class DeletePokemonController implements Controller {
     } catch (error) {
       return serverError(error)
     }
+  }
+}
+export namespace DeletePokemonController {
+  export type Request = {
+    id: string
+    accountId: number
   }
 }

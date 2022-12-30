@@ -1,3 +1,3 @@
 export interface CheckPokemonByIdRepository {
-  checkById: (idPokemon: string) => Promise<boolean>
+  checkById: (idPokemon: string, accountId: number) => Promise<boolean>
 }
