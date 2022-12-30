@@ -48,4 +48,11 @@ describe('DbDeletePokemon', () => {
     await sut.delete(idPokemon)
     expect(deletePokemonByIdRepositorySpy.idPokemon).toBe(idPokemon)
   })
+
+  it('should throw if DeletePokemonByIdRepository returns throws', async () => {
+    const { sut, deletePokemonByIdRepositorySpy } = makeSut()
+    jest.spyOn(deletePokemonByIdRepositorySpy, 'deleteById').mockImplementationOnce(() => { throw new Error() })
+    const promise = sut.delete(idPokemon)
+    await expect(promise).rejects.toThrow()
+  })
 })
