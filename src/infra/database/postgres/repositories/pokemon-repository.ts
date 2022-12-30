@@ -1,7 +1,7 @@
-import { CheckPokemonRepository, AddPokemonRepository, ListPokemonsRepository, CheckPokemonByIdRepository } from '@/data/protocols'
+import { CheckPokemonRepository, AddPokemonRepository, ListPokemonsRepository, CheckPokemonByIdRepository, DeletePokemonByIdRepository } from '@/data/protocols'
 import { Pokemon } from '@/infra/database/postgres/entities'
 
-export class PokemonRepository implements CheckPokemonRepository, AddPokemonRepository, ListPokemonsRepository, CheckPokemonByIdRepository {
+export class PokemonRepository implements CheckPokemonRepository, AddPokemonRepository, ListPokemonsRepository, CheckPokemonByIdRepository, DeletePokemonByIdRepository {
   async checkPokemon (namePokemon: string, accountId: number): Promise<boolean> {
     const pokemon = await Pokemon.findOne({
       where: {
@@ -41,5 +41,9 @@ export class PokemonRepository implements CheckPokemonRepository, AddPokemonRepo
       }
     })
     return pokemon != null
+  }
+
+  async deleteById (idPokemon: string, accountId: number): Promise<void> {
+    await Pokemon.destroy({ where: { idPokemon, userId: accountId } })
   }
 }
