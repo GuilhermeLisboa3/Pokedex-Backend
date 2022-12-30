@@ -79,4 +79,14 @@ describe('Account Repository', () => {
       expect(account).toBe(false)
     })
   })
+
+  describe('deleteById()', () => {
+    it('should delete pokemon on success', async () => {
+      const sut = makeSut()
+      await Account.create({ name, email, password })
+      await Pokemon.create({ ...makePokemon, userId: accountId })
+      await sut.deleteById(idPokemon, accountId)
+      expect(await Pokemon.findOne({ where: { idPokemon, userId: accountId } })).toBeNull()
+    })
+  })
 })
