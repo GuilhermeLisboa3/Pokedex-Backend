@@ -7,7 +7,10 @@ export class DbDeletePokemon implements DeletePokemon {
   ) {}
 
   async delete (idPokemon: string): Promise<boolean> {
-    await this.checkPokemonByIdRepository.checkById(idPokemon)
+    const deletePokemon = await this.checkPokemonByIdRepository.checkById(idPokemon)
+    if (!deletePokemon) {
+      return null
+    }
     return null
   }
 }
