@@ -20,9 +20,16 @@ const makeSut = (): SutTypes => {
 }
 
 describe('DbDeletePokemon', () => {
-  it('should call CheckPokemonById with correct id', async () => {
+  it('should call CheckPokemonByIdRepository with correct id', async () => {
     const { sut, checkPokemonByIdRepositorySpy } = makeSut()
     await sut.delete(idPokemon)
     expect(checkPokemonByIdRepositorySpy.idPokemon).toBe(idPokemon)
+  })
+
+  it('should return null if CheckPokemonByIdRepository returns false', async () => {
+    const { sut, checkPokemonByIdRepositorySpy } = makeSut()
+    checkPokemonByIdRepositorySpy.result = false
+    const error = await sut.delete(idPokemon)
+    expect(error).toBeNull()
   })
 })
