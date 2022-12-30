@@ -1,9 +1,10 @@
 import { DeletePokemon } from '@/domain/usecases'
-import { CheckPokemonByIdRepository } from '@/data/protocols'
+import { CheckPokemonByIdRepository, DeletePokemonByIdRepository } from '@/data/protocols'
 
 export class DbDeletePokemon implements DeletePokemon {
   constructor (
-    private readonly checkPokemonByIdRepository: CheckPokemonByIdRepository
+    private readonly checkPokemonByIdRepository: CheckPokemonByIdRepository,
+    private readonly deletePokemonByIdRepository: DeletePokemonByIdRepository
   ) {}
 
   async delete (idPokemon: string): Promise<boolean> {
@@ -11,6 +12,7 @@ export class DbDeletePokemon implements DeletePokemon {
     if (!deletePokemon) {
       return null
     }
-    return null
+    await this.deletePokemonByIdRepository.deleteById(idPokemon)
+    return true
   }
 }
