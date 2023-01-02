@@ -1,6 +1,7 @@
-import { registerPath, loginPath } from './path'
+import { registerPath, loginPath, DeleteAccountPath } from './path'
 import { registerSchema, registerParamsSchema, errorSchema, loginParamsSchema, loginSchema } from './schemas'
-import { badRequest, forbidden, serverError, notFound, unauthorized } from './components'
+import { badRequest, forbidden, serverError, notFound, unauthorized, securitySchemes } from './components'
+
 export default {
   openapi: '3.0.0',
   info: {
@@ -21,7 +22,8 @@ export default {
   }],
   paths: {
     '/register': registerPath,
-    '/login': loginPath
+    '/login': loginPath,
+    '/user': DeleteAccountPath
   },
   schemas: {
     register: registerSchema,
@@ -35,6 +37,7 @@ export default {
     forbidden,
     serverError,
     notFound,
-    unauthorized
+    unauthorized,
+    securitySchemes
   }
 }
