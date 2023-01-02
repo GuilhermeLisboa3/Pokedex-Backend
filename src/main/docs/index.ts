@@ -1,5 +1,5 @@
-import { registerPath, loginPath, DeleteAccountPath, AddPokemonPath } from './path'
-import { registerSchema, registerParamsSchema, errorSchema, loginParamsSchema, loginSchema, pokemonParamsSchema } from './schemas'
+import { registerPath, loginPath, DeleteAccountPath, AddPokemonPath, ListPokemonsPath } from './path'
+import { registerSchema, registerParamsSchema, errorSchema, loginParamsSchema, loginSchema, pokemonParamsSchema, listPokemonsSchema } from './schemas'
 import { badRequest, forbidden, serverError, notFound, unauthorized, securitySchemes } from './components'
 
 export default {
@@ -22,7 +22,8 @@ export default {
     '/register': registerPath,
     '/login': loginPath,
     '/user': DeleteAccountPath,
-    '/pokemon': AddPokemonPath
+    '/pokemon': AddPokemonPath,
+    '/pokemons': ListPokemonsPath
   },
   schemas: {
     register: registerSchema,
@@ -30,6 +31,7 @@ export default {
     loginParams: loginParamsSchema,
     login: loginSchema,
     pokemonParams: pokemonParamsSchema,
+    listPokemons: listPokemonsSchema,
     error: errorSchema
   },
   components: {
