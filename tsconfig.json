@@ -13,6 +13,6 @@
   "@/*": ["*"]
   }
 },
-"include": ["src", "tests"],
+"include": ["src", "tests", "src/main/docs/components/not-found.ts"],
 "exclude": []
 }

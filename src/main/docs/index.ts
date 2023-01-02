@@ -1,5 +1,6 @@
 import { registerPath } from './path/register-path'
-import { registerSchema, registerParamsSchema } from './schemas/account'
+import { registerSchema, registerParamsSchema, errorSchema } from './schemas'
+import { badRequest, forbidden, serverError, notFound } from './components'
 export default {
   openapi: '3.0.0',
   info: {
@@ -18,6 +19,13 @@ export default {
   },
   schemas: {
     register: registerSchema,
-    registerParams: registerParamsSchema
+    registerParams: registerParamsSchema,
+    error: errorSchema
+  },
+  components: {
+    badRequest,
+    forbidden,
+    serverError,
+    notFound
   }
 }
