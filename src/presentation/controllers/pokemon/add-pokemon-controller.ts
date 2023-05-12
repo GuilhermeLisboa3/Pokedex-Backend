@@ -11,17 +11,13 @@ export class AddPokemonController implements Controller {
 
   async handle (request: AddPokemonController.Request): Promise<HttpResponse> {
     try {
-      const error = await this.validation.validate(request)
+      const error = this.validation.validate(request)
       if (error) {
         return badRequest(error)
       }
-      const { accountId, idPokemon, namePokemon, photoPokemon, types, urlSpecies } = request
+      const { accountId, idPokemon } = request
       const isValid = await this.addPokemon.add({
-        idPokemon,
-        namePokemon,
-        photoPokemon,
-        types,
-        urlSpecies
+        idPokemon
       }, accountId)
 
       if (!isValid) {
@@ -36,11 +32,7 @@ export class AddPokemonController implements Controller {
 
 export namespace AddPokemonController {
   export type Request = {
-    namePokemon: string
-    photoPokemon: string
     idPokemon: string
-    types: string[]
-    urlSpecies: string
     accountId: number
   }
 }

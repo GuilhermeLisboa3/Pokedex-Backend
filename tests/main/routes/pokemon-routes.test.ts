@@ -5,7 +5,7 @@ import { pokemonParams } from '@/tests/mocks'
 import { sign } from 'jsonwebtoken'
 import env from '@/main/config/env'
 
-const { accountId, idPokemon, namePokemon, photoPokemon, types, urlSpecies } = pokemonParams
+const { accountId, idPokemon } = pokemonParams
 
 const makeAccessToken = async (): Promise<string> => {
   await Account.create({
@@ -18,7 +18,7 @@ const makeAccessToken = async (): Promise<string> => {
   return accessToken
 }
 
-describe('SignUp Routes', () => {
+describe('Pokemon Routes', () => {
   beforeEach(async () => {
     await sequelize.sync({ force: true })
   })
@@ -31,11 +31,7 @@ describe('SignUp Routes', () => {
         .post('/pokemon')
         .send({
           accountId,
-          idPokemon,
-          namePokemon,
-          photoPokemon,
-          types,
-          urlSpecies
+          idPokemon
         })
         .expect(403)
     })
@@ -46,11 +42,7 @@ describe('SignUp Routes', () => {
         .post('/pokemon')
         .set({ authorization: `Bearer ${accessToken}` })
         .send({
-          idPokemon,
-          namePokemon,
-          photoPokemon,
-          types,
-          urlSpecies
+          idPokemon
         })
         .expect(200)
     })
@@ -84,10 +76,6 @@ describe('SignUp Routes', () => {
       const accessToken = await makeAccessToken()
       await Pokemon.create({
         idPokemon,
-        namePokemon,
-        photoPokemon,
-        types,
-        urlSpecies,
         userId: 1
       })
       await request(app)

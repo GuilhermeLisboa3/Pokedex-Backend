@@ -4,13 +4,9 @@ import { AddPokemonController } from '@/presentation/controllers'
 import { badRequest, forbidden, serverError, ok } from '@/presentation/helpers'
 import { PokemonInUseError } from '@/presentation/errors'
 
-const { accountId, namePokemon, photoPokemon, idPokemon, types, urlSpecies } = pokemonParams
+const { accountId, idPokemon } = pokemonParams
 const makeRequest = {
-  namePokemon,
-  photoPokemon,
   idPokemon,
-  types,
-  urlSpecies,
   accountId
 }
 
@@ -49,11 +45,7 @@ describe('AddPokemon Controller', () => {
     const { sut, addPokemonSpy } = makeSut()
     await sut.handle(makeRequest)
     expect(addPokemonSpy.addPokemonParams).toEqual({
-      namePokemon,
-      photoPokemon,
-      idPokemon,
-      types,
-      urlSpecies
+      idPokemon
     })
     expect(addPokemonSpy.accountId).toEqual(accountId)
   })

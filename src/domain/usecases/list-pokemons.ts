@@ -5,10 +5,6 @@ export interface ListPokemons {
 export namespace ListPokemons {
   export type Result = Array<{
     id: string
-    namePokemon: string
-    photoPokemon: string
     idPokemon: string
-    types: string[]
-    urlSpecies: string
   }>
 }

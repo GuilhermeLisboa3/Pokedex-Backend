@@ -2,15 +2,9 @@ import { sequelize, Pokemon, Account } from '@/infra/database/postgres/entities'
 import { PokemonRepository } from '@/infra/database/postgres/repositories'
 import { pokemonParams, accountParams } from '@/tests/mocks'
 
-const { accountId, namePokemon, idPokemon, photoPokemon, types, urlSpecies } = pokemonParams
+const { accountId, idPokemon } = pokemonParams
 const { email, name, password } = accountParams
-const makePokemon = {
-  idPokemon,
-  namePokemon,
-  photoPokemon,
-  types,
-  urlSpecies
-}
+const makePokemon = { idPokemon }
 
 const makeSut = (): PokemonRepository => {
   return new PokemonRepository()
@@ -22,22 +16,6 @@ describe('Account Repository', () => {
   })
   afterAll(async () => {
     await sequelize.close()
-  })
-  describe('checkPokemon()', () => {
-    it('should return true if pokemon exist', async () => {
-      await Account.create({ name, email, password })
-      await Pokemon.create({ ...makePokemon, userId: accountId })
-      const sut = makeSut()
-      const account = await sut.checkPokemon(namePokemon, accountId)
-      expect(account).toBe(true)
-    })
-
-    it('should return false if pokemon not exist', async () => {
-      await Account.create({ name, email, password })
-      const sut = makeSut()
-      const account = await sut.checkPokemon(namePokemon, accountId)
-      expect(account).toBe(false)
-    })
   })
 
   describe('add()', () => {
@@ -57,9 +35,6 @@ describe('Account Repository', () => {
       const pokemon = await sut.list(accountId)
       expect(pokemon[0].id).toBeTruthy()
       expect(pokemon[0].idPokemon).toBe(idPokemon)
-      expect(pokemon[0].namePokemon).toBe(namePokemon)
-      expect(pokemon[0].photoPokemon).toBe(photoPokemon)
-      expect(pokemon[0].urlSpecies).toBe(urlSpecies)
     })
   })
 

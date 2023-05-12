@@ -1,7 +1,7 @@
 import { AddPokemon, ListPokemons, DeletePokemon } from '@/domain/usecases'
 import { pokemonParams } from '@/tests/mocks/pokemon-params'
 
-const { id, idPokemon, namePokemon, photoPokemon, types, urlSpecies } = pokemonParams
+const { id, idPokemon } = pokemonParams
 
 export class AddPokemonSpy implements AddPokemon {
   addPokemonParams: AddPokemon.Params
@@ -18,11 +18,7 @@ export class ListPokemonsSpy implements ListPokemons {
   accountId: number
   result = [{
     id,
-    idPokemon,
-    namePokemon,
-    photoPokemon,
-    types,
-    urlSpecies
+    idPokemon
   }]
 
   async list (accountId: number): Promise<ListPokemons.Result> {

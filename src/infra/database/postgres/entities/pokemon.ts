@@ -2,11 +2,7 @@ import { Model, Optional, Sequelize, DataTypes } from 'sequelize'
 
 type PokemonAttributes = {
   id: string
-  namePokemon: string
-  photoPokemon: string
   idPokemon: string
-  types: string[]
-  urlSpecies: string
   userId: number
 }
 
@@ -22,23 +18,7 @@ export default (sequelize: Sequelize) => {
       autoIncrement: true,
       primaryKey: true
     },
-    namePokemon: {
-      allowNull: false,
-      type: DataTypes.STRING
-    },
-    photoPokemon: {
-      allowNull: false,
-      type: DataTypes.STRING
-    },
     idPokemon: {
-      allowNull: false,
-      type: DataTypes.STRING
-    },
-    types: {
-      allowNull: false,
-      type: DataTypes.ARRAY(DataTypes.STRING)
-    },
-    urlSpecies: {
       allowNull: false,
       type: DataTypes.STRING
     },

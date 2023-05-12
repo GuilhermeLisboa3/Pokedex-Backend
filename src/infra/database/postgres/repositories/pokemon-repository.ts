@@ -1,17 +1,7 @@
-import { CheckPokemonRepository, AddPokemonRepository, ListPokemonsRepository, CheckPokemonByIdRepository, DeletePokemonByIdRepository } from '@/data/protocols'
+import { AddPokemonRepository, ListPokemonsRepository, CheckPokemonByIdRepository, DeletePokemonByIdRepository } from '@/data/protocols'
 import { Pokemon } from '@/infra/database/postgres/entities'
 
-export class PokemonRepository implements CheckPokemonRepository, AddPokemonRepository, ListPokemonsRepository, CheckPokemonByIdRepository, DeletePokemonByIdRepository {
-  async checkPokemon (namePokemon: string, accountId: number): Promise<boolean> {
-    const pokemon = await Pokemon.findOne({
-      where: {
-        namePokemon,
-        userId: accountId
-      }
-    })
-    return pokemon != null
-  }
-
+export class PokemonRepository implements AddPokemonRepository, ListPokemonsRepository, CheckPokemonByIdRepository, DeletePokemonByIdRepository {
   async add (pokemonParams: AddPokemonRepository.Params): Promise<boolean> {
     const pokemon = await Pokemon.create({ ...pokemonParams, userId: pokemonParams.accountId })
     return pokemon != null
@@ -21,11 +11,7 @@ export class PokemonRepository implements CheckPokemonRepository, AddPokemonRepo
     const pokemons = await Pokemon.findAll({
       attributes: [
         'id',
-        ['id_pokemon', 'idPokemon'],
-        ['name_pokemon', 'namePokemon'],
-        ['photo_pokemon', 'photoPokemon'],
-        'types',
-        ['url_species', 'urlSpecies']
+        ['id_pokemon', 'idPokemon']
       ],
       where: { userId: accountId }
     })

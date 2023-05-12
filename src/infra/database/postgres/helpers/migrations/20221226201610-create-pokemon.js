@@ -13,22 +13,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DataTypes.STRING
       },
-      name_pokemon: {
-        allowNull: false,
-        type: Sequelize.DataTypes.STRING
-      },
-      photo_pokemon: {
-        allowNull: false,
-        type: Sequelize.DataTypes.STRING
-      },
-      types: {
-        allowNull: false,
-        type: Sequelize.ARRAY(Sequelize.STRING)
-      },
-      url_species: {
-        allowNull: false,
-        type: Sequelize.DataTypes.STRING
-      },
       user_id: {
         allowNull: false,
         type: Sequelize.DataTypes.INTEGER,

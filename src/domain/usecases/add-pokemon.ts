@@ -4,10 +4,6 @@ export interface AddPokemon {
 
 export namespace AddPokemon {
   export type Params = {
-    namePokemon: string
-    photoPokemon: string
     idPokemon: string
-    types: string[]
-    urlSpecies: string
   }
 }
